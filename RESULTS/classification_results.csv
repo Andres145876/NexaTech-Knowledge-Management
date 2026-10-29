@@ -1,0 +1,7 @@
+document_text,actual_category,predicted_category
+"Backup and Recovery Procedure System administrators schedule server backups, verify backup integrity, and restore files when data loss or hardware failure occurs.",Infrastructure,Infrastructure
+"Application Deployment Guide Developers prepare application releases, configure deployment environments, execute deployment scripts, and validate production functionality.",Software Development,Technical Support
+"Software Installation Guide Technicians install approved applications, verify system requirements, configure user permissions, and test software functionality.",Technical Support,Software Development
+"Bug Tracking Report The development team records software defects, assigns issues to developers, tracks corrections, and verifies fixes through regression testing.",Software Development,Software Development
+"Access Control Procedure Administrators assign user permissions according to job responsibilities, review account privileges, and revoke access when employees leave.",Cybersecurity,Technical Support
+"Data Protection Policy The organization protects confidential information through access restrictions, encryption, secure backups, and data handling procedures.",Cybersecurity,Technical Support

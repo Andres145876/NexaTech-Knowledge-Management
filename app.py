@@ -1,5 +1,6 @@
 
 from pathlib import Path
+import uuid
 
 import pandas as pd
 import streamlit as st
@@ -7,6 +8,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
+
 
 # --------------------------------------------------
 # Configuration
@@ -20,16 +22,24 @@ st.set_page_config(
 PROJECT_DIR = Path(__file__).resolve().parent
 DATA_FILE = PROJECT_DIR / "DATA" / "documents.csv"
 
-st.markdown("""
+REQUIRED_COLUMNS = [
+    "document_id",
+    "title",
+    "category",
+    "content"
+]
 
+
+# --------------------------------------------------
+# Custom styling
+# --------------------------------------------------
+st.markdown("""
 <style>
-    /* Main page spacing */
     .block-container {
         padding-top: 1.5rem;
         padding-bottom: 2rem;
     }
 
-    /* Hero banner */
     .hero {
         padding: 1.5rem;
         border-radius: 14px;
@@ -48,7 +58,6 @@ st.markdown("""
         margin-bottom: 0;
     }
 
-    /* Metric cards */
     div[data-testid="stMetric"] {
         background: #F3F6FA;
         border: 1px solid #E0E7EF;
@@ -56,47 +65,40 @@ st.markdown("""
         border-radius: 12px;
     }
 
-    /* Metric labels */
     div[data-testid="stMetric"] label,
     div[data-testid="stMetric"] [data-testid="stMetricLabel"],
     div[data-testid="stMetric"] [data-testid="stMetricLabel"] p {
         color: #34495E !important;
     }
 
-    /* Metric numbers */
     div[data-testid="stMetric"] [data-testid="stMetricValue"],
     div[data-testid="stMetric"] [data-testid="stMetricValue"] div,
     div[data-testid="stMetric"] [data-testid="stMetricValue"] p {
         color: #10243A !important;
     }
 
-    /* Metric delta and supporting text */
     div[data-testid="stMetric"] [data-testid="stMetricDelta"] {
         color: #245B78 !important;
     }
 
-    /* Section headings */
     h1, h2, h3 {
         color: inherit;
     }
 
-    /* Document result containers */
     div[data-testid="stVerticalBlockBorderWrapper"] {
         border-radius: 12px;
     }
 
-    /* Sidebar */
     section[data-testid="stSidebar"] {
         border-right: 1px solid #E0E7EF;
     }
 
-    /* Buttons */
-    div.stButton > button {
+    div.stButton > button,
+    div[data-testid="stFormSubmitButton"] button {
         border-radius: 8px;
         font-weight: 600;
     }
 
-    /* Tables */
     div[data-testid="stDataFrame"] {
         border-radius: 10px;
         overflow: hidden;
@@ -112,25 +114,28 @@ st.markdown("""
 def load_documents(file_path, modified_time):
     df = pd.read_csv(file_path)
 
-    required = {
-        "document_id", "title", "category", "content"
-    }
-
-    missing = required - set(df.columns)
+    missing = set(REQUIRED_COLUMNS) - set(df.columns)
 
     if missing:
         raise ValueError(
-            f"Missing required columns: {', '.join(sorted(missing))}"
+            f"Missing required columns: "
+            f"{', '.join(sorted(missing))}"
         )
 
     if df.empty:
         raise ValueError("The dataset contains no documents.")
 
-    for column in required:
-        df[column] = df[column].fillna("").astype(str).str.strip()
+    for column in REQUIRED_COLUMNS:
+        df[column] = (
+            df[column]
+            .fillna("")
+            .astype(str)
+            .str.strip()
+        )
 
     df = df[
-        (df["title"] != "")
+        (df["document_id"] != "")
+        & (df["title"] != "")
         & (df["category"] != "")
         & (df["content"] != "")
     ].copy()
@@ -140,6 +145,11 @@ def load_documents(file_path, modified_time):
             "No valid documents remain after data validation."
         )
 
+    if df["document_id"].duplicated().any():
+        raise ValueError(
+            "Duplicate document IDs were found in the dataset."
+        )
+
     df["search_text"] = (
         df["title"] + " " + df["content"]
     )
@@ -147,6 +157,9 @@ def load_documents(file_path, modified_time):
     return df.reset_index(drop=True)
 
 
+# --------------------------------------------------
+# Build search and classification models
+# --------------------------------------------------
 @st.cache_resource
 def build_models(texts, labels):
     search_vectorizer = TfidfVectorizer(
@@ -171,6 +184,14 @@ def build_models(texts, labels):
     classifier.fit(texts, labels)
 
     return search_vectorizer, document_vectors, classifier
+
+
+# --------------------------------------------------
+# Load current data and models
+# --------------------------------------------------
+def refresh_project_data():
+    load_documents.clear()
+    build_models.clear()
 
 
 try:
@@ -210,13 +231,14 @@ page = st.sidebar.radio(
         "Dashboard",
         "Semantic Search",
         "Document Classifier",
+        "Add Document",
         "Knowledge Base"
     ]
 )
 
 st.sidebar.divider()
 st.sidebar.metric("Available Documents", len(documents))
-st.sidebar.caption("Academic prototype | Version 1.1")
+st.sidebar.caption("Academic prototype | Version 1.2")
 
 
 # --------------------------------------------------
@@ -278,13 +300,15 @@ if page == "Dashboard":
         "**Semantic Search**\n\n"
         "Find documents using text similarity."
     )
+
     col2.info(
         "**Document Classification**\n\n"
         "Predict a knowledge category for new text."
     )
+
     col3.info(
         "**Knowledge Base**\n\n"
-        "Browse and filter the document collection."
+        "Browse, filter and add documents."
     )
 
     st.caption(
@@ -334,7 +358,7 @@ elif page == "Semantic Search":
             value=0.0,
             step=0.05,
             help=(
-                "This filters results by their cosine similarity. "
+                "This filters results by cosine similarity. "
                 "It is not a probability of correctness."
             )
         )
@@ -480,14 +504,13 @@ elif page == "Document Classifier":
                 probability_table.set_index("Category")
             )
 
+            display_table = probability_table.copy()
+            display_table["Model Score"] = display_table[
+                "Model Score"
+            ].map(lambda score: f"{score:.1%}")
+
             st.dataframe(
-                probability_table.assign(
-                    **{
-                        "Model Score": probability_table[
-                            "Model Score"
-                        ].map(lambda score: f"{score:.1%}")
-                    }
-                ),
+                display_table,
                 hide_index=True,
                 use_container_width=True
             )
@@ -503,6 +526,202 @@ elif page == "Document Classifier":
                 "sample dataset. Its reliability depends on the "
                 "quantity and diversity of training documents."
             )
+
+
+# --------------------------------------------------
+# Add Document
+# --------------------------------------------------
+elif page == "Add Document":
+    st.title("Add Knowledge Document")
+
+    st.write(
+        "Add a new document to the NexaTech knowledge base. "
+        "The document will be stored in the project CSV file."
+    )
+
+    title = st.text_input(
+        "Document title",
+        placeholder="Example: Network Security Guidelines",
+        key="add_document_title"
+    )
+
+    content = st.text_area(
+        "Document content",
+        placeholder="Enter the technical document content...",
+        height=220,
+        key="add_document_content"
+    )
+
+    combined_text = f"{title.strip()} {content.strip()}".strip()
+
+    categories = sorted(documents["category"].unique().tolist())
+
+    if combined_text:
+        suggested_category = classifier.predict([combined_text])[0]
+        probabilities = classifier.predict_proba([combined_text])[0]
+        confidence = float(probabilities.max())
+
+        st.caption(
+            f"Suggested category: {suggested_category} "
+            f"(model score: {confidence:.1%})"
+        )
+
+        st.caption(
+            "The model score is an estimate from the classifier, "
+            "not a guarantee of correctness."
+        )
+    else:
+        suggested_category = categories[0]
+
+    category_options = categories.copy()
+
+    if suggested_category not in category_options:
+        category_options.append(suggested_category)
+        category_options.sort()
+
+    default_index = category_options.index(suggested_category)
+
+    category = st.selectbox(
+        "Document category",
+        category_options,
+        index=default_index,
+        key="add_document_category"
+    )
+
+    if st.button("Save Document", type="primary"):
+        if not title.strip() or not content.strip():
+            st.error(
+                "Both the document title and content are required."
+            )
+
+        else:
+            try:
+                # Reload the current CSV before writing, so that
+                # the operation uses the latest saved documents.
+                current_documents = pd.read_csv(
+                    DATA_FILE,
+                    dtype=str
+                ).fillna("")
+
+                missing = (
+                    set(REQUIRED_COLUMNS)
+                    - set(current_documents.columns)
+                )
+
+                if missing:
+                    raise ValueError(
+                        "The dataset is missing required columns: "
+                        + ", ".join(sorted(missing))
+                    )
+
+                current_documents["document_id"] = (
+                    current_documents["document_id"]
+                    .astype(str)
+                    .str.strip()
+                )
+
+                current_documents["title"] = (
+                    current_documents["title"]
+                    .astype(str)
+                    .str.strip()
+                )
+
+                current_documents["category"] = (
+                    current_documents["category"]
+                    .astype(str)
+                    .str.strip()
+                )
+
+                current_documents["content"] = (
+                    current_documents["content"]
+                    .astype(str)
+                    .str.strip()
+                )
+
+                duplicate_title = current_documents[
+                    "title"
+                ].str.casefold().eq(
+                    title.strip().casefold()
+                )
+
+                duplicate_content = current_documents[
+                    "content"
+                ].str.casefold().eq(
+                    content.strip().casefold()
+                )
+
+                if duplicate_title.any() and duplicate_content.any():
+                    st.warning(
+                        "A document with the same title and content "
+                        "already exists."
+                    )
+
+                else:
+                    existing_ids = set(
+                        current_documents["document_id"]
+                    )
+
+                    new_id = f"DOC-{uuid.uuid4().hex[:8].upper()}"
+
+                    while new_id in existing_ids:
+                        new_id = f"DOC-{uuid.uuid4().hex[:8].upper()}"
+
+                    new_document = pd.DataFrame([{
+                        "document_id": new_id,
+                        "title": title.strip(),
+                        "category": category,
+                        "content": content.strip()
+                    }])
+
+                    updated_documents = pd.concat(
+                        [
+                            current_documents[REQUIRED_COLUMNS],
+                            new_document
+                        ],
+                        ignore_index=True
+                    )
+
+                    DATA_FILE.parent.mkdir(
+                        parents=True,
+                        exist_ok=True
+                    )
+
+                    updated_documents.to_csv(
+                        DATA_FILE,
+                        index=False,
+                        encoding="utf-8"
+                    )
+
+                    refresh_project_data()
+
+                    st.session_state["document_saved"] = {
+                        "id": new_id,
+                        "title": title.strip()
+                    }
+
+                    st.rerun()
+
+            except Exception as error:
+                st.error(
+                    f"Could not save the document: {error}"
+                )
+
+    saved_document = st.session_state.pop(
+        "document_saved",
+        None
+    )
+
+    if saved_document:
+        st.success(
+            f"Document '{saved_document['title']}' saved successfully."
+        )
+
+        st.write(f"Document ID: {saved_document['id']}")
+
+        st.info(
+            "The knowledge base, search index and classifier "
+            "have been refreshed. The new document is now available."
+        )
 
 
 # --------------------------------------------------
@@ -522,13 +741,15 @@ elif page == "Knowledge Base":
     with col1:
         selected_category = st.selectbox(
             "Filter by category",
-            ["All Categories"] + categories
+            ["All Categories"] + categories,
+            key="knowledge_category_filter"
         )
 
     with col2:
         search_term = st.text_input(
             "Search title or content",
-            placeholder="Enter keywords..."
+            placeholder="Enter keywords...",
+            key="knowledge_search_term"
         )
 
     filtered = documents.copy()
@@ -567,9 +788,7 @@ elif page == "Knowledge Base":
     )
 
     st.dataframe(
-        filtered[
-            ["document_id", "title", "category", "content"]
-        ],
+        filtered[REQUIRED_COLUMNS],
         hide_index=True,
         use_container_width=True
     )

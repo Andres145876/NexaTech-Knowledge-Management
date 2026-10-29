@@ -1,4 +1,3 @@
-
 document_id,title,category,content
 DOC001,Server Maintenance Procedure,Infrastructure,"The IT team performs regular server maintenance, checks CPU usage, monitors memory consumption, installs system updates, and verifies server availability."
 DOC002,Network Troubleshooting Guide,Infrastructure,"Technicians diagnose network connectivity issues by checking routers, switches, IP addresses, DNS configuration, and network cables."
@@ -24,3 +23,14 @@ DOC021,Application Deployment Guide,Software Development,"Developers prepare app
 DOC022,Database Development Manual,Software Development,"Developers design database schemas, write SQL queries, optimize database performance, and maintain data integrity."
 DOC023,Bug Tracking Report,Software Development,"The development team records software defects, assigns issues to developers, tracks corrections, and verifies fixes through regression testing."
 DOC024,API Integration Guide,Software Development,"Developers configure API endpoints, exchange JSON data, manage authentication tokens, handle HTTP responses, and test service integrations."
+DOC-7EFCA7B0,Network Security and Access Control Guidelines,Cybersecurity,"Network security is essential for protecting company systems, sensitive information, and business operations. All employees must follow established security policies when accessing corporate networks and digital resources.
+
+Employees should use strong passwords that contain a combination of uppercase letters, lowercase letters, numbers, and special characters. Multi-factor authentication (MFA) must be enabled for accounts that support it, especially administrator accounts and remote access services.
+
+Network administrators must regularly review user permissions and ensure that employees only have access to the resources required for their responsibilities. Unused accounts must be disabled, and access permissions should be updated whenever an employee changes roles or leaves the organization.
+
+Firewalls, antivirus software, and intrusion detection systems should be maintained and updated regularly. Security patches must be applied according to the company's maintenance procedures. Suspicious network activity, unauthorized access attempts, and potential data breaches must be reported immediately to the cybersecurity team.
+
+Employees should avoid connecting unauthorized devices to corporate networks and must use approved secure connections when working remotely. Regular security awareness training helps employees recognize phishing attacks, malicious attachments, and other common cybersecurity threats.
+
+Following these guidelines reduces security risks, protects company data, and supports the confidentiality, integrity, and availability of NexaTech Solutions' information systems."

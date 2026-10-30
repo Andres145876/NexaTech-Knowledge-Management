@@ -1,1 +1,7 @@
-ren Requeriments.txt requirements.txt
+pandas
+scikit-learn
+streamlit
+pypdf
+pymupdf
+pytesseract
+pillow

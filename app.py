@@ -1,6 +1,8 @@
-
 from pathlib import Path
+from io import BytesIO
 import uuid
+
+from pypdf import PdfReader
 
 import pandas as pd
 import streamlit as st
@@ -105,6 +107,106 @@ st.markdown("""
     }
 </style>
 """, unsafe_allow_html=True)
+
+
+# --------------------------------------------------
+# Extract text from PDF and TXT files
+# --------------------------------------------------
+def extract_uploaded_text(uploaded_file):
+    """Extract text from PDF/TXT, using OCR when a PDF has no text layer."""
+    file_extension = Path(uploaded_file.name).suffix.lower()
+    used_ocr = False
+
+    if file_extension == ".txt":
+        raw_content = uploaded_file.getvalue()
+
+        try:
+            extracted_text = raw_content.decode("utf-8-sig")
+        except UnicodeDecodeError:
+            extracted_text = raw_content.decode("latin-1")
+
+    elif file_extension == ".pdf":
+        pdf_bytes = uploaded_file.getvalue()
+        reader = PdfReader(BytesIO(pdf_bytes))
+
+        if reader.is_encrypted:
+            raise ValueError(
+                "This PDF is password-protected. Upload an unlocked PDF."
+            )
+
+        extracted_text = "\n".join(
+            page.extract_text() or ""
+            for page in reader.pages
+        ).replace("\x00", "").strip()
+
+        # If the PDF has no selectable text, use OCR on its page images.
+        if not extracted_text:
+            try:
+                import fitz
+                import pytesseract
+                from PIL import Image
+            except ImportError as error:
+                raise RuntimeError(
+                    "This PDF appears to be scanned. To read it, install the "
+                    "OCR packages with: pip install pymupdf pytesseract pillow"
+                ) from error
+
+            try:
+                pdf_document = fitz.open(stream=pdf_bytes, filetype="pdf")
+                ocr_pages = []
+
+                for page in pdf_document:
+                    pixmap = page.get_pixmap(
+                        matrix=fitz.Matrix(2, 2),
+                        alpha=False
+                    )
+
+                    page_image = Image.open(
+                        BytesIO(pixmap.tobytes("png"))
+                    )
+
+                    page_text = pytesseract.image_to_string(
+                        page_image,
+                        lang="eng"
+                    ).strip()
+
+                    if page_text:
+                        ocr_pages.append(page_text)
+
+                pdf_document.close()
+                extracted_text = "\n".join(ocr_pages).strip()
+                used_ocr = True
+
+            except Exception as error:
+                error_message = str(error)
+
+                if (
+                    "tesseract" in error_message.lower()
+                    or "not installed" in error_message.lower()
+                ):
+                    raise RuntimeError(
+                        "OCR could not start. Install Tesseract OCR on Windows "
+                        "and make sure it is available in PATH."
+                    ) from error
+
+                raise RuntimeError(
+                    f"OCR could not process this PDF: {error}"
+                ) from error
+
+    else:
+        raise ValueError("Only PDF and TXT files are supported.")
+
+    extracted_text = extracted_text.replace("\x00", "").strip()
+
+    if not extracted_text:
+        if used_ocr:
+            raise ValueError(
+                "OCR did not detect readable text in this scanned PDF."
+            )
+
+        raise ValueError("No readable text was found in this file.")
+
+    return extracted_text, used_ocr
 
 
 # --------------------------------------------------
@@ -294,7 +396,7 @@ if page == "Dashboard":
 
     st.subheader("System Capabilities")
 
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3, col4 = st.columns(4)
 
     col1.info(
         "**Semantic Search**\n\n"
@@ -311,12 +413,12 @@ if page == "Dashboard":
         "Browse, filter and add documents."
     )
 
-    st.caption(
-        "Prototype note: results depend on the size and quality "
-        "of the available sample dataset."
+    col4.info(
+        "**Add Documents**\n\n"
+        "Upload and add new documents to the knowledge base."
     )
 
-
+   
 # --------------------------------------------------
 # Semantic Search
 # --------------------------------------------------
@@ -539,6 +641,371 @@ elif page == "Add Document":
         "The document will be stored in the project CSV file."
     )
 
+    # --------------------------------------------------
+    # Import multiple documents from a CSV file
+    # --------------------------------------------------
+    st.subheader("Import CSV Dataset")
+
+    csv_file = st.file_uploader(
+        "Upload a CSV file",
+        type=["csv"],
+        key="csv_dataset_upload",
+        help=(
+            "The CSV must contain document_id, title, category "
+            "and content columns."
+        )
+    )
+
+    if csv_file is not None:
+        try:
+            csv_documents = pd.read_csv(
+                BytesIO(csv_file.getvalue()),
+                dtype=str
+            ).fillna("")
+
+            missing_csv_columns = (
+                set(REQUIRED_COLUMNS) - set(csv_documents.columns)
+            )
+
+            if missing_csv_columns:
+                raise ValueError(
+                    "The CSV is missing these required columns: "
+                    + ", ".join(sorted(missing_csv_columns))
+                )
+
+            csv_documents = csv_documents[REQUIRED_COLUMNS].copy()
+
+            for column in REQUIRED_COLUMNS:
+                csv_documents[column] = (
+                    csv_documents[column].astype(str).str.strip()
+                )
+
+            if csv_documents.empty:
+                raise ValueError("The uploaded CSV contains no documents.")
+
+            if csv_documents.eq("").any().any():
+                raise ValueError(
+                    "Every imported row must have an ID, title, category and content."
+                )
+
+            if csv_documents["document_id"].duplicated().any():
+                raise ValueError(
+                    "The uploaded CSV contains duplicate document IDs."
+                )
+
+            st.write(f"Documents detected: {len(csv_documents)}")
+            st.dataframe(csv_documents.head(10), hide_index=True)
+
+            if st.button(
+                "Import CSV Documents",
+                type="primary",
+                key="import_csv_documents"
+            ):
+                current_documents = pd.read_csv(
+                    DATA_FILE,
+                    dtype=str
+                ).fillna("")
+
+                current_documents = current_documents[REQUIRED_COLUMNS].copy()
+
+                existing_ids = set(
+                    current_documents["document_id"].astype(str).str.strip()
+                )
+                imported_ids = set(csv_documents["document_id"])
+
+                conflicting_ids = existing_ids.intersection(imported_ids)
+
+                if conflicting_ids:
+                    st.error(
+                        "Import cancelled. These document IDs already exist: "
+                        + ", ".join(sorted(conflicting_ids)[:10])
+                    )
+                else:
+                    existing_pairs = set(
+                        zip(
+                            current_documents["title"].str.casefold(),
+                            current_documents["content"].str.casefold()
+                        )
+                    )
+
+                    new_rows = []
+                    skipped_duplicates = 0
+
+                    for _, imported_row in csv_documents.iterrows():
+                        pair = (
+                            imported_row["title"].casefold(),
+                            imported_row["content"].casefold()
+                        )
+
+                        if pair in existing_pairs:
+                            skipped_duplicates += 1
+                            continue
+
+                        new_rows.append(imported_row.to_dict())
+                        existing_pairs.add(pair)
+
+                    if not new_rows:
+                        st.warning(
+                            "No new documents were imported. "
+                            "All uploaded documents already exist."
+                        )
+                    else:
+                        updated_documents = pd.concat(
+                            [
+                                current_documents,
+                                pd.DataFrame(new_rows, columns=REQUIRED_COLUMNS)
+                            ],
+                            ignore_index=True
+                        )
+
+                        updated_documents.to_csv(
+                            DATA_FILE,
+                            index=False,
+                            encoding="utf-8"
+                        )
+
+                        refresh_project_data()
+
+                        st.session_state["csv_import_result"] = {
+                            "imported": len(new_rows),
+                            "skipped": skipped_duplicates
+                        }
+
+                        st.rerun()
+
+        except Exception as error:
+            st.error(f"Could not process the CSV file: {error}")
+
+    csv_import_result = st.session_state.pop(
+        "csv_import_result",
+        None
+    )
+
+    if csv_import_result:
+        st.success(
+            f"{csv_import_result['imported']} document(s) imported successfully."
+        )
+
+        if csv_import_result["skipped"]:
+            st.info(
+                f"{csv_import_result['skipped']} duplicate document(s) were skipped."
+            )
+
+        st.info(
+            "The knowledge base, search index and classifier have been refreshed."
+        )
+
+    st.divider()
+
+        # --------------------------------------------------
+    # Import multiple documents from PDF or TXT
+    # --------------------------------------------------
+    st.subheader("Import Multiple Documents from PDF or TXT")
+
+    st.write(
+        "Select several PDF or TXT files. NexaTech will extract their text, "
+        "suggest a category and import the documents together."
+    )
+
+    uploaded_files = st.file_uploader(
+        "Select PDF and TXT files",
+        type=["pdf", "txt"],
+        accept_multiple_files=True,
+        key="multiple_document_upload",
+        help=(
+            "You can select multiple PDFs and TXT files. Scanned PDFs are "
+            "processed with OCR when Tesseract is installed."
+        )
+    )
+
+    if uploaded_files:
+        st.caption(f"{len(uploaded_files)} file(s) selected.")
+
+        st.dataframe(
+            pd.DataFrame({
+                "File name": [file.name for file in uploaded_files]
+            }),
+            hide_index=True,
+            use_container_width=True
+        )
+
+        if st.button(
+            "Process and Import Files",
+            type="primary",
+            key="process_multiple_documents"
+        ):
+            try:
+                current_documents = pd.read_csv(
+                    DATA_FILE,
+                    dtype=str
+                ).fillna("")
+
+                current_documents = current_documents[
+                    REQUIRED_COLUMNS
+                ].copy()
+
+                existing_ids = set(
+                    current_documents["document_id"].astype(str)
+                )
+
+                existing_pairs = set(
+                    zip(
+                        current_documents["title"].str.casefold(),
+                        current_documents["content"].str.casefold()
+                    )
+                )
+
+                new_rows = []
+                imported_names = []
+                skipped_names = []
+                failed_files = []
+                ocr_names = []
+
+                for uploaded_file in uploaded_files:
+                    try:
+                        extracted_text, used_ocr = extract_uploaded_text(
+                            uploaded_file
+                        )
+
+                        if used_ocr:
+                            ocr_names.append(uploaded_file.name)
+
+                        document_title = (
+                            Path(uploaded_file.name).stem.strip()
+                        )
+
+                        duplicate_pair = (
+                            document_title.casefold(),
+                            extracted_text.casefold()
+                        )
+
+                        if duplicate_pair in existing_pairs:
+                            skipped_names.append(
+                                f"{uploaded_file.name}: duplicate document"
+                            )
+                            continue
+
+                        predicted_category = classifier.predict([
+                            f"{document_title} {extracted_text}"
+                        ])[0]
+
+                        new_id = (
+                            f"DOC-{uuid.uuid4().hex[:8].upper()}"
+                        )
+
+                        while new_id in existing_ids:
+                            new_id = (
+                                f"DOC-{uuid.uuid4().hex[:8].upper()}"
+                            )
+
+                        existing_ids.add(new_id)
+                        existing_pairs.add(duplicate_pair)
+
+                        new_rows.append({
+                            "document_id": new_id,
+                            "title": document_title,
+                            "category": predicted_category,
+                            "content": extracted_text
+                        })
+
+                        imported_names.append(uploaded_file.name)
+
+                    except Exception as file_error:
+                        failed_files.append(
+                            f"{uploaded_file.name}: {file_error}"
+                        )
+
+                if new_rows:
+                    updated_documents = pd.concat(
+                        [
+                            current_documents,
+                            pd.DataFrame(
+                                new_rows,
+                                columns=REQUIRED_COLUMNS
+                            )
+                        ],
+                        ignore_index=True
+                    )
+
+                    updated_documents.to_csv(
+                        DATA_FILE,
+                        index=False,
+                        encoding="utf-8"
+                    )
+
+                    refresh_project_data()
+
+                st.session_state["multiple_import_result"] = {
+                    "imported": imported_names,
+                    "skipped": skipped_names,
+                    "failed": failed_files,
+                    "ocr": ocr_names
+                }
+
+                st.rerun()
+
+            except Exception as error:
+                st.error(
+                    f"Could not import the selected files: {error}"
+                )
+
+    multiple_import_result = st.session_state.pop(
+        "multiple_import_result",
+        None
+    )
+
+    if multiple_import_result:
+        imported_names = multiple_import_result["imported"]
+        skipped_names = multiple_import_result["skipped"]
+        failed_files = multiple_import_result["failed"]
+        ocr_names = multiple_import_result.get("ocr", [])
+
+        if imported_names:
+            st.success(
+                f"{len(imported_names)} document(s) imported successfully."
+            )
+
+            with st.expander("View imported files"):
+                for file_name in imported_names:
+                    st.write(f"- {file_name}")
+
+        if ocr_names:
+            st.info(
+                f"OCR was used on {len(ocr_names)} scanned PDF file(s)."
+            )
+
+            with st.expander("View files processed with OCR"):
+                for file_name in ocr_names:
+                    st.write(f"- {file_name}")
+
+        if skipped_names:
+            st.warning(
+                f"{len(skipped_names)} duplicate file(s) were skipped."
+            )
+
+            with st.expander("View skipped files"):
+                for message in skipped_names:
+                    st.write(f"- {message}")
+
+        if failed_files:
+            st.error(
+                f"{len(failed_files)} file(s) could not be processed."
+            )
+
+            with st.expander("View files with errors"):
+                for message in failed_files:
+                    st.write(f"- {message}")
+
+        if imported_names:
+            st.info(
+                "The knowledge base, search index and classifier have been refreshed."
+            )
+
+    st.divider()
+
+    # --------------------------------------------------
+    # Add a document manually
+    # --------------------------------------------------
     title = st.text_input(
         "Document title",
         placeholder="Example: Network Security Guidelines",
@@ -554,11 +1021,19 @@ elif page == "Add Document":
 
     combined_text = f"{title.strip()} {content.strip()}".strip()
 
-    categories = sorted(documents["category"].unique().tolist())
+    categories = sorted(
+        documents["category"].unique().tolist()
+    )
 
     if combined_text:
-        suggested_category = classifier.predict([combined_text])[0]
-        probabilities = classifier.predict_proba([combined_text])[0]
+        suggested_category = classifier.predict([
+            combined_text
+        ])[0]
+
+        probabilities = classifier.predict_proba([
+            combined_text
+        ])[0]
+
         confidence = float(probabilities.max())
 
         st.caption(
@@ -570,6 +1045,7 @@ elif page == "Add Document":
             "The model score is an estimate from the classifier, "
             "not a guarantee of correctness."
         )
+
     else:
         suggested_category = categories[0]
 
@@ -596,8 +1072,7 @@ elif page == "Add Document":
 
         else:
             try:
-                # Reload the current CSV before writing, so that
-                # the operation uses the latest saved documents.
+                # Reload the current CSV before writing.
                 current_documents = pd.read_csv(
                     DATA_FILE,
                     dtype=str
@@ -661,10 +1136,14 @@ elif page == "Add Document":
                         current_documents["document_id"]
                     )
 
-                    new_id = f"DOC-{uuid.uuid4().hex[:8].upper()}"
+                    new_id = (
+                        f"DOC-{uuid.uuid4().hex[:8].upper()}"
+                    )
 
                     while new_id in existing_ids:
-                        new_id = f"DOC-{uuid.uuid4().hex[:8].upper()}"
+                        new_id = (
+                            f"DOC-{uuid.uuid4().hex[:8].upper()}"
+                        )
 
                     new_document = pd.DataFrame([{
                         "document_id": new_id,
@@ -716,15 +1195,16 @@ elif page == "Add Document":
             f"Document '{saved_document['title']}' saved successfully."
         )
 
-        st.write(f"Document ID: {saved_document['id']}")
+        st.write(
+            f"Document ID: {saved_document['id']}"
+        )
 
         st.info(
             "The knowledge base, search index and classifier "
             "have been refreshed. The new document is now available."
         )
 
-
-# --------------------------------------------------
+        # --------------------------------------------------
 # Knowledge Base
 # --------------------------------------------------
 elif page == "Knowledge Base":
@@ -736,7 +1216,9 @@ elif page == "Knowledge Base":
 
     col1, col2 = st.columns(2)
 
-    categories = sorted(documents["category"].unique())
+    categories = sorted(
+        documents["category"].unique()
+    )
 
     with col1:
         selected_category = st.selectbox(

@@ -37,74 +37,223 @@ REQUIRED_COLUMNS = [
 # --------------------------------------------------
 st.markdown("""
 <style>
+
+/* ----------------------------------------
+   MAIN CONTENT
+---------------------------------------- */
+
+.block-container {
+    padding-top: 1.8rem;
+    padding-bottom: 2.2rem;
+    padding-left: clamp(1rem, 4vw, 4rem);
+    padding-right: clamp(1rem, 4vw, 4rem);
+    max-width: 100% !important;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ----------------------------------------
+   HERO
+---------------------------------------- */
+
+.hero {
+    padding: 1.8rem 2rem;
+    border-radius: 18px;
+    background: linear-gradient(120deg, #102B46 0%, #176B91 100%);
+    color: #FFFFFF;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 8px 24px rgba(16, 43, 70, 0.12);
+}
+
+.hero h1 {
+    color: #FFFFFF !important;
+    font-size: 2.1rem;
+    margin-bottom: 0.45rem;
+}
+
+.hero p {
+    color: #E6F2F8 !important;
+    font-size: 1.02rem;
+    margin-bottom: 0;
+}
+
+/* ----------------------------------------
+   METRICS
+---------------------------------------- */
+
+div[data-testid="stMetric"] {
+    background: var(--secondary-background-color);
+    border: 1px solid rgba(128, 128, 128, 0.25);
+    padding: 16px 18px;
+    border-radius: 14px;
+}
+
+div[data-testid="stMetric"] label,
+div[data-testid="stMetric"] [data-testid="stMetricLabel"],
+div[data-testid="stMetric"] [data-testid="stMetricLabel"] p {
+    color: var(--text-color) !important;
+}
+
+div[data-testid="stMetric"] [data-testid="stMetricValue"],
+div[data-testid="stMetric"] [data-testid="stMetricValue"] div,
+div[data-testid="stMetric"] [data-testid="stMetricValue"] p {
+    color: var(--text-color) !important;
+}
+
+div[data-testid="stMetric"] [data-testid="stMetricDelta"] {
+    color: #3286B5 !important;
+}
+
+/* ----------------------------------------
+   HEADINGS AND CONTAINERS
+---------------------------------------- */
+
+h1, h2, h3 {
+    color: var(--text-color);
+}
+
+div[data-testid="stVerticalBlockBorderWrapper"] {
+    border-radius: 14px;
+}
+
+/* ----------------------------------------
+   SIDEBAR ADAPTIVE THEME
+---------------------------------------- */
+
+section[data-testid="stSidebar"] {
+    width: 330px !important;
+    min-width: 330px !important;
+    background-color: var(--secondary-background-color) !important;
+    color: var(--text-color) !important;
+    border-right: 1px solid rgba(128, 128, 128, 0.25);
+}
+
+section[data-testid="stSidebar"] > div {
+    width: 330px !important;
+}
+
+section[data-testid="stSidebar"] .stRadio > label {
+    color: var(--text-color) !important;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.7rem;
+}
+
+section[data-testid="stSidebar"] div[role="radiogroup"] {
+    gap: 0.55rem;
+}
+
+section[data-testid="stSidebar"] div[role="radiogroup"] label {
+    background-color: var(--background-color) !important;
+    border: 1px solid rgba(128, 128, 128, 0.28);
+    border-radius: 11px;
+    padding: 0.72rem 0.85rem;
+    min-height: 48px;
+    transition: all 0.15s ease;
+}
+
+section[data-testid="stSidebar"] div[role="radiogroup"] label:hover {
+    border-color: #3286B5;
+    background-color: var(--secondary-background-color) !important;
+}
+
+section[data-testid="stSidebar"] div[role="radiogroup"] label p {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-color) !important;
+}
+
+section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] h1 {
+    color: var(--text-color) !important;
+    font-size: 1.8rem;
+    letter-spacing: -0.5px;
+    margin-bottom: 0.1rem;
+}
+
+section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p {
+    color: var(--text-color) !important;
+}
+
+/* NexaTech branding */
+
+section[data-testid="stSidebar"] .stMarkdown div[style*="linear-gradient"] {
+    color: #FFFFFF !important;
+}
+
+section[data-testid="stSidebar"] .stMarkdown div[style*="linear-gradient"] div {
+    color: #FFFFFF !important;
+}
+
+/* ----------------------------------------
+   BUTTONS AND TABLES
+---------------------------------------- */
+
+div.stButton > button,
+div[data-testid="stFormSubmitButton"] button {
+    border-radius: 9px;
+    font-weight: 650;
+    min-height: 42px;
+}
+
+div[data-testid="stDataFrame"] {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* ----------------------------------------
+   RESPONSIVE MAIN CONTENT
+---------------------------------------- */
+
+section[data-testid="stMain"] {
+    width: 100% !important;
+    min-width: 0 !important;
+}
+
+section[data-testid="stMain"] > div {
+    width: 100% !important;
+    min-width: 0 !important;
+}
+
+.stMainBlockContainer {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* Distribute columns evenly */
+
+div[data-testid="stHorizontalBlock"] {
+    width: 100%;
+    justify-content: center;
+}
+
+/* Prevent content overflow */
+
+div[data-testid="stVerticalBlock"] {
+    max-width: 100%;
+}
+
+/* ----------------------------------------
+   SMALL SCREENS
+---------------------------------------- */
+
+@media (max-width: 768px) {
     .block-container {
-        padding-top: 1.5rem;
-        padding-bottom: 2rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
 
     .hero {
-        padding: 1.5rem;
-        border-radius: 14px;
-        background: linear-gradient(120deg, #10243A, #245B78);
-        color: #FFFFFF;
-        margin-bottom: 1.2rem;
+        padding: 1.3rem;
     }
 
     .hero h1 {
-        color: #FFFFFF !important;
-        margin-bottom: 0.4rem;
+        font-size: 1.7rem;
     }
+}
 
-    .hero p {
-        color: #E1EDF5 !important;
-        margin-bottom: 0;
-    }
-
-    div[data-testid="stMetric"] {
-        background: #F3F6FA;
-        border: 1px solid #E0E7EF;
-        padding: 14px;
-        border-radius: 12px;
-    }
-
-    div[data-testid="stMetric"] label,
-    div[data-testid="stMetric"] [data-testid="stMetricLabel"],
-    div[data-testid="stMetric"] [data-testid="stMetricLabel"] p {
-        color: #34495E !important;
-    }
-
-    div[data-testid="stMetric"] [data-testid="stMetricValue"],
-    div[data-testid="stMetric"] [data-testid="stMetricValue"] div,
-    div[data-testid="stMetric"] [data-testid="stMetricValue"] p {
-        color: #10243A !important;
-    }
-
-    div[data-testid="stMetric"] [data-testid="stMetricDelta"] {
-        color: #245B78 !important;
-    }
-
-    h1, h2, h3 {
-        color: inherit;
-    }
-
-    div[data-testid="stVerticalBlockBorderWrapper"] {
-        border-radius: 12px;
-    }
-
-    section[data-testid="stSidebar"] {
-        border-right: 1px solid #E0E7EF;
-    }
-
-    div.stButton > button,
-    div[data-testid="stFormSubmitButton"] button {
-        border-radius: 8px;
-        font-weight: 600;
-    }
-
-    div[data-testid="stDataFrame"] {
-        border-radius: 10px;
-        overflow: hidden;
-    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -139,7 +288,6 @@ def extract_uploaded_text(uploaded_file):
             for page in reader.pages
         ).replace("\x00", "").strip()
 
-        # If the PDF has no selectable text, use OCR on its page images.
         if not extracted_text:
             try:
                 import fitz
@@ -152,7 +300,11 @@ def extract_uploaded_text(uploaded_file):
                 ) from error
 
             try:
-                pdf_document = fitz.open(stream=pdf_bytes, filetype="pdf")
+                pdf_document = fitz.open(
+                    stream=pdf_bytes,
+                    filetype="pdf"
+                )
+
                 ocr_pages = []
 
                 for page in pdf_document:
@@ -174,6 +326,7 @@ def extract_uploaded_text(uploaded_file):
                         ocr_pages.append(page_text)
 
                 pdf_document.close()
+
                 extracted_text = "\n".join(ocr_pages).strip()
                 used_ocr = True
 
@@ -314,34 +467,54 @@ try:
 
 except Exception as error:
     st.error(f"Could not load the project dataset: {error}")
+
     st.info(
         "Check that DATA/documents.csv exists and contains "
         "document_id, title, category and content columns."
     )
+
     st.stop()
 
 
 # --------------------------------------------------
 # Sidebar navigation
 # --------------------------------------------------
-st.sidebar.title("NexaTech")
-st.sidebar.caption("Knowledge Management System")
+st.sidebar.markdown("""
+<div style="
+    padding: 1.15rem 1rem 1.05rem 1rem;
+    margin: 0.15rem 0 1rem 0;
+    border-radius: 14px;
+    background: linear-gradient(125deg, #102B46, #176B91);
+    color: white;">
+    <div style="font-size: 1.65rem; font-weight: 800; letter-spacing: -0.4px;">
+        NexaTech
+    </div>
+    <div style="font-size: 0.88rem; color: #E6F2F8; margin-top: 0.25rem;">
+        Knowledge Management System
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
 page = st.sidebar.radio(
-    "Navigation",
+    "MAIN MENU",
     [
         "Dashboard",
         "Semantic Search",
         "Document Classifier",
         "Add Document",
         "Knowledge Base"
-    ]
+    ],
+    label_visibility="visible"
 )
 
 st.sidebar.divider()
-st.sidebar.metric("Available Documents", len(documents))
-st.sidebar.caption("Academic prototype | Version 1.2")
 
+st.sidebar.metric(
+    "Available Documents",
+    len(documents)
+)
+
+st.sidebar.caption("Academic prototype | Version 1.3")
 
 # --------------------------------------------------
 # Dashboard
@@ -361,11 +534,16 @@ if page == "Dashboard":
 
     col1, col2, col3 = st.columns(3)
 
-    col1.metric("Total Documents", len(documents))
+    col1.metric(
+        "Total Documents",
+        len(documents)
+    )
+
     col2.metric(
         "Knowledge Categories",
         documents["category"].nunique()
     )
+
     col3.metric(
         "Average Documents per Category",
         f"{len(documents) / documents['category'].nunique():.1f}"
@@ -375,7 +553,9 @@ if page == "Dashboard":
 
     with left:
         st.subheader("Documents by Category")
+
         category_counts = documents["category"].value_counts()
+
         st.bar_chart(category_counts)
 
     with right:
@@ -418,7 +598,7 @@ if page == "Dashboard":
         "Upload and add new documents to the knowledge base."
     )
 
-   
+
 # --------------------------------------------------
 # Semantic Search
 # --------------------------------------------------
@@ -438,7 +618,9 @@ elif page == "Semantic Search":
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        categories = sorted(documents["category"].unique())
+        categories = sorted(
+            documents["category"].unique()
+        )
 
         selected_category = st.selectbox(
             "Category filter",
@@ -483,6 +665,7 @@ elif page == "Semantic Search":
             ).flatten()
 
             results = documents.copy()
+
             results["Similarity"] = scores
 
             if selected_category != "All Categories":
@@ -574,17 +757,20 @@ elif page == "Document Classifier":
             )
 
         else:
-            prediction = classifier.predict([combined_text])[0]
+            prediction = classifier.predict([
+                combined_text
+            ])[0]
 
-            probabilities = classifier.predict_proba(
-                [combined_text]
-            )[0]
+            probabilities = classifier.predict_proba([
+                combined_text
+            ])[0]
 
             classes = classifier.named_steps["model"].classes_
 
             confidence = float(probabilities.max())
 
             st.subheader("Predicted Category")
+
             st.success(prediction)
 
             st.metric(
@@ -607,9 +793,12 @@ elif page == "Document Classifier":
             )
 
             display_table = probability_table.copy()
+
             display_table["Model Score"] = display_table[
                 "Model Score"
-            ].map(lambda score: f"{score:.1%}")
+            ].map(
+                lambda score: f"{score:.1%}"
+            )
 
             st.dataframe(
                 display_table,
@@ -629,8 +818,7 @@ elif page == "Document Classifier":
                 "quantity and diversity of training documents."
             )
 
-
-# --------------------------------------------------
+            # --------------------------------------------------
 # Add Document
 # --------------------------------------------------
 elif page == "Add Document":
@@ -673,15 +861,21 @@ elif page == "Add Document":
                     + ", ".join(sorted(missing_csv_columns))
                 )
 
-            csv_documents = csv_documents[REQUIRED_COLUMNS].copy()
+            csv_documents = csv_documents[
+                REQUIRED_COLUMNS
+            ].copy()
 
             for column in REQUIRED_COLUMNS:
                 csv_documents[column] = (
-                    csv_documents[column].astype(str).str.strip()
+                    csv_documents[column]
+                    .astype(str)
+                    .str.strip()
                 )
 
             if csv_documents.empty:
-                raise ValueError("The uploaded CSV contains no documents.")
+                raise ValueError(
+                    "The uploaded CSV contains no documents."
+                )
 
             if csv_documents.eq("").any().any():
                 raise ValueError(
@@ -693,8 +887,14 @@ elif page == "Add Document":
                     "The uploaded CSV contains duplicate document IDs."
                 )
 
-            st.write(f"Documents detected: {len(csv_documents)}")
-            st.dataframe(csv_documents.head(10), hide_index=True)
+            st.write(
+                f"Documents detected: {len(csv_documents)}"
+            )
+
+            st.dataframe(
+                csv_documents.head(10),
+                hide_index=True
+            )
 
             if st.button(
                 "Import CSV Documents",
@@ -706,20 +906,30 @@ elif page == "Add Document":
                     dtype=str
                 ).fillna("")
 
-                current_documents = current_documents[REQUIRED_COLUMNS].copy()
+                current_documents = current_documents[
+                    REQUIRED_COLUMNS
+                ].copy()
 
                 existing_ids = set(
-                    current_documents["document_id"].astype(str).str.strip()
+                    current_documents["document_id"]
+                    .astype(str)
+                    .str.strip()
                 )
-                imported_ids = set(csv_documents["document_id"])
 
-                conflicting_ids = existing_ids.intersection(imported_ids)
+                imported_ids = set(
+                    csv_documents["document_id"]
+                )
+
+                conflicting_ids = existing_ids.intersection(
+                    imported_ids
+                )
 
                 if conflicting_ids:
                     st.error(
                         "Import cancelled. These document IDs already exist: "
                         + ", ".join(sorted(conflicting_ids)[:10])
                     )
+
                 else:
                     existing_pairs = set(
                         zip(
@@ -741,7 +951,10 @@ elif page == "Add Document":
                             skipped_duplicates += 1
                             continue
 
-                        new_rows.append(imported_row.to_dict())
+                        new_rows.append(
+                            imported_row.to_dict()
+                        )
+
                         existing_pairs.add(pair)
 
                     if not new_rows:
@@ -749,11 +962,15 @@ elif page == "Add Document":
                             "No new documents were imported. "
                             "All uploaded documents already exist."
                         )
+
                     else:
                         updated_documents = pd.concat(
                             [
                                 current_documents,
-                                pd.DataFrame(new_rows, columns=REQUIRED_COLUMNS)
+                                pd.DataFrame(
+                                    new_rows,
+                                    columns=REQUIRED_COLUMNS
+                                )
                             ],
                             ignore_index=True
                         )
@@ -774,7 +991,9 @@ elif page == "Add Document":
                         st.rerun()
 
         except Exception as error:
-            st.error(f"Could not process the CSV file: {error}")
+            st.error(
+                f"Could not process the CSV file: {error}"
+            )
 
     csv_import_result = st.session_state.pop(
         "csv_import_result",
@@ -797,7 +1016,7 @@ elif page == "Add Document":
 
     st.divider()
 
-        # --------------------------------------------------
+    # --------------------------------------------------
     # Import multiple documents from PDF or TXT
     # --------------------------------------------------
     st.subheader("Import Multiple Documents from PDF or TXT")
@@ -819,11 +1038,15 @@ elif page == "Add Document":
     )
 
     if uploaded_files:
-        st.caption(f"{len(uploaded_files)} file(s) selected.")
+        st.caption(
+            f"{len(uploaded_files)} file(s) selected."
+        )
 
         st.dataframe(
             pd.DataFrame({
-                "File name": [file.name for file in uploaded_files]
+                "File name": [
+                    file.name for file in uploaded_files
+                ]
             }),
             hide_index=True,
             use_container_width=True
@@ -868,7 +1091,9 @@ elif page == "Add Document":
                         )
 
                         if used_ocr:
-                            ocr_names.append(uploaded_file.name)
+                            ocr_names.append(
+                                uploaded_file.name
+                            )
 
                         document_title = (
                             Path(uploaded_file.name).stem.strip()
@@ -908,7 +1133,9 @@ elif page == "Add Document":
                             "content": extracted_text
                         })
 
-                        imported_names.append(uploaded_file.name)
+                        imported_names.append(
+                            uploaded_file.name
+                        )
 
                     except Exception as file_error:
                         failed_files.append(
@@ -1019,7 +1246,9 @@ elif page == "Add Document":
         key="add_document_content"
     )
 
-    combined_text = f"{title.strip()} {content.strip()}".strip()
+    combined_text = (
+        f"{title.strip()} {content.strip()}"
+    ).strip()
 
     categories = sorted(
         documents["category"].unique().tolist()
@@ -1055,7 +1284,9 @@ elif page == "Add Document":
         category_options.append(suggested_category)
         category_options.sort()
 
-    default_index = category_options.index(suggested_category)
+    default_index = category_options.index(
+        suggested_category
+    )
 
     category = st.selectbox(
         "Document category",
@@ -1064,7 +1295,10 @@ elif page == "Add Document":
         key="add_document_category"
     )
 
-    if st.button("Save Document", type="primary"):
+    if st.button(
+        "Save Document",
+        type="primary"
+    ):
         if not title.strip() or not content.strip():
             st.error(
                 "Both the document title and content are required."
@@ -1072,7 +1306,6 @@ elif page == "Add Document":
 
         else:
             try:
-                # Reload the current CSV before writing.
                 current_documents = pd.read_csv(
                     DATA_FILE,
                     dtype=str
@@ -1089,29 +1322,12 @@ elif page == "Add Document":
                         + ", ".join(sorted(missing))
                     )
 
-                current_documents["document_id"] = (
-                    current_documents["document_id"]
-                    .astype(str)
-                    .str.strip()
-                )
-
-                current_documents["title"] = (
-                    current_documents["title"]
-                    .astype(str)
-                    .str.strip()
-                )
-
-                current_documents["category"] = (
-                    current_documents["category"]
-                    .astype(str)
-                    .str.strip()
-                )
-
-                current_documents["content"] = (
-                    current_documents["content"]
-                    .astype(str)
-                    .str.strip()
-                )
+                for column in REQUIRED_COLUMNS:
+                    current_documents[column] = (
+                        current_documents[column]
+                        .astype(str)
+                        .str.strip()
+                    )
 
                 duplicate_title = current_documents[
                     "title"
@@ -1204,7 +1420,8 @@ elif page == "Add Document":
             "have been refreshed. The new document is now available."
         )
 
-        # --------------------------------------------------
+
+# --------------------------------------------------
 # Knowledge Base
 # --------------------------------------------------
 elif page == "Knowledge Base":
@@ -1280,3 +1497,4 @@ elif page == "Knowledge Base":
             "No documents match these filters. Change the category "
             "or try another keyword."
         )
+        

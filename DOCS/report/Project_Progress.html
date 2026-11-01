@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Project Progress Documentation – NexaTech Knowledge Management System</title>
+<style>
+  @page { size: Letter; margin: 22mm 18mm 20mm 18mm; }
+  @page landscape { size: Letter landscape; margin: 14mm 14mm 14mm 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Liberation Sans", Helvetica, Arial, sans-serif; color: #222; font-size: 10.2pt; line-height: 1.45; margin: 0; }
+  h1.sec { background: #124f4c; color: #fff; font-size: 15pt; padding: 8pt 12pt; margin: 0 0 10pt; page-break-after: avoid; }
+  h2 { color: #124f4c; font-size: 12pt; margin: 12pt 0 4pt; page-break-after: avoid; }
+  h3 { color: #124f4c; font-size: 10.5pt; margin: 10pt 0 3pt; page-break-after: avoid; }
+  p { margin: 0 0 6pt; }
+  ul { margin: 0 0 7pt; padding-left: 15pt; } li { margin-bottom: 3pt; }
+  table { width: 100%; border-collapse: collapse; margin: 5pt 0 9pt; font-size: 8.8pt; page-break-inside: avoid; }
+  th { background: #124f4c; color: #fff; text-align: left; padding: 4pt 6pt; font-weight: bold; }
+  td { border: 1px solid #c0c3c2; padding: 4pt 6pt; vertical-align: top; }
+  tr:nth-child(even) td { background: #f1f5f4; }
+  .num td:last-child, .num th:last-child { text-align: right; }
+  .num3 td:nth-child(n+3), .num3 th:nth-child(n+3) { text-align: right; }
+  .center-last td:last-child, .center-last th:last-child { text-align: center; }
+  figure { margin: 6pt 0 10pt; text-align: center; page-break-inside: avoid; }
+  figure img { max-width: 100%; border: 1px solid #d5d9d8; }
+  figcaption { font-size: 8.5pt; font-style: italic; color: #444; margin-top: 3pt; }
+  pre { font-family: "Liberation Mono", Courier, monospace; font-size: 8.4pt; background: #f4f6f5; border: 1px solid #d5d9d8; padding: 7pt 9pt; white-space: pre-wrap; page-break-inside: avoid; margin: 4pt 0 9pt; }
+  code { font-family: "Liberation Mono", Courier, monospace; font-size: 8.8pt; }
+  .new { border-left: 4px solid #4aa83c; background: #f2f9f0; padding: 6pt 10pt; margin: 6pt 0 10pt; page-break-inside: avoid; }
+  .page { page-break-before: always; }
+  .ok { color: #2e7d32; font-weight: bold; } .bad { color: #b71c1c; font-weight: bold; }
+  .two { display: flex; gap: 10pt; align-items: flex-start; } .two figure { flex: 1; }
+  /* cover */
+  .cover { text-align: center; padding-top: 30mm; height: 230mm; position: relative; }
+  .cover img.logo { width: 62mm; border: none; }
+  .cover .title { color: #3f9c35; font-size: 27pt; font-weight: bold; margin: 26mm 0 4mm; }
+  .cover .subtitle { color: #333; font-size: 13pt; margin-bottom: 16mm; }
+  .cover .label { color: #666; font-size: 9pt; letter-spacing: 1px; margin-top: 7mm; }
+  .cover .name { font-size: 11.5pt; margin: 1.5mm 0; }
+  .cover .date { color: #3f9c35; font-size: 11pt; margin-top: 8mm; }
+  .cover .repo { font-size: 9pt; color: #555; margin-top: 2mm; }
+  .cover .rule { position: absolute; bottom: 0; left: 0; right: 0; border-top: 1px solid #c0c3c2; }
+  /* at a glance */
+  .glance { display: flex; border: 1px solid #c0c3c2; margin: 6pt 0 8pt; }
+  .glance div { flex: 1; text-align: center; padding: 10pt 6pt; border-right: 1px solid #c0c3c2; background: #f1f5f4; }
+  .glance div:last-child { border-right: none; }
+  .glance b { display: block; color: #124f4c; font-size: 20pt; margin-bottom: 3pt; }
+  .glance span { font-size: 8.5pt; color: #333; }
+  .landscape { page: landscape; page-break-before: always; text-align: center; }
+  .landscape img { max-height: 172mm; max-width: 100%; border: none; }
+  .refs p { padding-left: 18pt; text-indent: -18pt; }
+  a { color: #124f4c; }
+  /* table of contents */
+  .toc { page-break-after: always; }
+  .toc-row a { display: flex; align-items: baseline; text-decoration: none; color: #222; }
+  .toc-row .dots { flex: 1; border-bottom: 1px dotted #8a9a98; margin: 0 5pt 3pt; }
+  .toc-row.l1 { font-weight: bold; color: #124f4c; margin: 8pt 0 2pt; font-size: 10.5pt; }
+  .toc-row.l1 a { color: #124f4c; }
+  .toc-row.l2 { margin: 1.5pt 0 1.5pt 16pt; font-size: 9.6pt; }
+  .toc-pg { min-width: 14pt; text-align: right; }
+</style>
+</head>
+<body>
+<div class="toc">
+<h1 style="color:#124f4c;font-size:17pt;margin:0 0 10pt">Table of Contents</h1>
+<div class="toc-row l1"><a href="#toc1"><span class="t">Project Progress Documentation</span><span class="dots"></span><span class="toc-pg" data-target="toc1">0</span></a></div>
+<div class="toc-row l1"><a href="#toc2"><span class="t">1. Description of the fictitious company</span><span class="dots"></span><span class="toc-pg" data-target="toc2">0</span></a></div>
+<div class="toc-row l2"><a href="#toc3"><span class="t">Main activities</span><span class="dots"></span><span class="toc-pg" data-target="toc3">0</span></a></div>
+<div class="toc-row l2"><a href="#toc4"><span class="t">Documents and knowledge resources it manages</span><span class="dots"></span><span class="toc-pg" data-target="toc4">0</span></a></div>
+<div class="toc-row l2"><a href="#toc5"><span class="t">Why a knowledge management system is needed</span><span class="dots"></span><span class="toc-pg" data-target="toc5">0</span></a></div>
+<div class="toc-row l2"><a href="#toc6"><span class="t">Areas that generate, use or update information</span><span class="dots"></span><span class="toc-pg" data-target="toc6">0</span></a></div>
+<div class="toc-row l1"><a href="#toc7"><span class="t">2. Knowledge life cycle map</span><span class="dots"></span><span class="toc-pg" data-target="toc7">0</span></a></div>
+<div class="toc-row l2"><a href="#toc8"><span class="t">Stages explained with one case</span><span class="dots"></span><span class="toc-pg" data-target="toc8">0</span></a></div>
+<div class="toc-row l2"><a href="#toc9"><span class="t">Tacit and explicit knowledge</span><span class="dots"></span><span class="toc-pg" data-target="toc9">0</span></a></div>
+<div class="toc-row l1"><a href="#toc10"><span class="t">3. Ontology and conceptual graph of organizational knowledge</span><span class="dots"></span><span class="toc-pg" data-target="toc10">0</span></a></div>
+<div class="toc-row l2"><a href="#toc11"><span class="t">How the ontology covers the required elements</span><span class="dots"></span><span class="toc-pg" data-target="toc11">0</span></a></div>
+<div class="toc-row l2"><a href="#toc12"><span class="t">Relations between concepts</span><span class="dots"></span><span class="toc-pg" data-target="toc12">0</span></a></div>
+<div class="toc-row l2"><a href="#toc13"><span class="t">Examples of instances</span><span class="dots"></span><span class="toc-pg" data-target="toc13">0</span></a></div>
+<div class="toc-row l1"><a href="#toc14"><span class="t">4. How the prototype works</span><span class="dots"></span><span class="toc-pg" data-target="toc14">0</span></a></div>
+<div class="toc-row l2"><a href="#toc15"><span class="t">Repository structure</span><span class="dots"></span><span class="toc-pg" data-target="toc15">0</span></a></div>
+<div class="toc-row l2"><a href="#toc16"><span class="t">Data flow</span><span class="dots"></span><span class="toc-pg" data-target="toc16">0</span></a></div>
+<div class="toc-row l2"><a href="#toc17"><span class="t">Modules</span><span class="dots"></span><span class="toc-pg" data-target="toc17">0</span></a></div>
+<div class="toc-row l2"><a href="#toc18"><span class="t">How the search is computed</span><span class="dots"></span><span class="toc-pg" data-target="toc18">0</span></a></div>
+<div class="toc-row l2"><a href="#toc19"><span class="t">How the classification works</span><span class="dots"></span><span class="toc-pg" data-target="toc19">0</span></a></div>
+<div class="toc-row l1"><a href="#toc20"><span class="t">5. Evidence of prototype development</span><span class="dots"></span><span class="toc-pg" data-target="toc20">0</span></a></div>
+<div class="toc-row l2"><a href="#toc21"><span class="t">5.1 Dashboard and input documents</span><span class="dots"></span><span class="toc-pg" data-target="toc21">0</span></a></div>
+<div class="toc-row l2"><a href="#toc22"><span class="t">5.2 Classification with the repository script</span><span class="dots"></span><span class="toc-pg" data-target="toc22">0</span></a></div>
+<div class="toc-row l2"><a href="#toc23"><span class="t">5.3 Classification tests with new documents</span><span class="dots"></span><span class="toc-pg" data-target="toc23">0</span></a></div>
+<div class="toc-row l2"><a href="#toc24"><span class="t">5.4 Semantic search examples</span><span class="dots"></span><span class="toc-pg" data-target="toc24">0</span></a></div>
+<div class="toc-row l2"><a href="#toc25"><span class="t">5.5 Knowledge base browsing</span><span class="dots"></span><span class="toc-pg" data-target="toc25">0</span></a></div>
+<div class="toc-row l2"><a href="#toc26"><span class="t">5.6 Classifier evaluation with the repository scripts</span><span class="dots"></span><span class="toc-pg" data-target="toc26">0</span></a></div>
+<div class="toc-row l1"><a href="#toc27"><span class="t">6. Evidence of practical exercises (Topics 1 to 6)</span><span class="dots"></span><span class="toc-pg" data-target="toc27">0</span></a></div>
+<div class="toc-row l2"><a href="#toc28"><span class="t">Topic 1 – Knowledge audit</span><span class="dots"></span><span class="toc-pg" data-target="toc28">0</span></a></div>
+<div class="toc-row l2"><a href="#toc29"><span class="t">Topic 2 – Text preprocessing and TF-IDF</span><span class="dots"></span><span class="toc-pg" data-target="toc29">0</span></a></div>
+<div class="toc-row l2"><a href="#toc30"><span class="t">Topic 3 – Knowledge representation</span><span class="dots"></span><span class="toc-pg" data-target="toc30">0</span></a></div>
+<div class="toc-row l2"><a href="#toc31"><span class="t">Topic 4 – Information retrieval</span><span class="dots"></span><span class="toc-pg" data-target="toc31">0</span></a></div>
+<div class="toc-row l2"><a href="#toc32"><span class="t">Topic 5 – Classification tests</span><span class="dots"></span><span class="toc-pg" data-target="toc32">0</span></a></div>
+<div class="toc-row l2"><a href="#toc33"><span class="t">Topic 6 – Similarity and clustering</span><span class="dots"></span><span class="toc-pg" data-target="toc33">0</span></a></div>
+<div class="toc-row l1"><a href="#toc34"><span class="t">7. Repository and reproduction</span><span class="dots"></span><span class="toc-pg" data-target="toc34">0</span></a></div>
+<div class="toc-row l1"><a href="#toc35"><span class="t">8. Conclusion</span><span class="dots"></span><span class="toc-pg" data-target="toc35">0</span></a></div>
+<div class="toc-row l2"><a href="#toc36"><span class="t">References</span><span class="dots"></span><span class="toc-pg" data-target="toc36">0</span></a></div>
+</div>
+
+
+<!-- ======================= INTRO ======================= -->
+<div class="page">
+<h1 style="color:#124f4c;font-size:17pt;margin:0 0 8pt" id="toc1">Project Progress Documentation</h1>
+<p>This document presents the progress of the knowledge management project developed for NexaTech Solutions, a fictitious technology company. It describes the company, maps the knowledge life cycle, presents an ontology and conceptual graph of the organizational knowledge, explains how the prototype works, and shows evidence of its execution: screenshots, classification results, semantic search examples and the practical exercises of Topics 1 to 6 that contributed to the project.</p>
+<p>The prototype is a Python application that stores technical documents, classifies them automatically and retrieves them with natural-language queries. Source code, dataset, test documents and results are in the repository: <a href="https://github.com/Andres145876/NexaTech-Knowledge-Management">https://github.com/Andres145876/NexaTech-Knowledge-Management</a>.</p>
+<h2>The project at a glance</h2>
+<div class="glance">
+  <div><b>102</b><span>documents in the committed dataset</span></div>
+  <div><b>4</b><span>knowledge categories</span></div>
+  <div><b>92.3%</b><span>hold-out accuracy of the classifier (85.1% in 5-fold cross-validation)</span></div>
+  <div><b>8 / 8</b><span>new test documents classified correctly</span></div>
+  <div><b>6</b><span>semantic search examples</span></div>
+</div>
+<p style="font-size:8.8pt;color:#555">All screenshots and figures in this version were produced with the dataset committed to the repository (<code>DATA/documents.csv</code>, 102 documents), so the application and the scripts show the same numbers.</p>
+
+</div>
+
+<!-- ======================= 1 COMPANY ======================= -->
+<div class="page">
+<h1 class="sec" id="toc2">1. Description of the fictitious company</h1>
+<p>NexaTech Solutions is a fictitious mid-sized Latin American company with about 400 employees. It builds custom software and sells managed IT services, which include cloud hosting, connectivity, information security and 24/7 technical support. Its clients are banks, retailers and public agencies.</p>
+<h2 id="toc3">Main activities</h2>
+<ul>
+  <li><b>Technical support:</b> agents solve client incidents and accumulate fixes, workarounds and knowledge of client environments.</li>
+  <li><b>Software development:</b> engineers produce architectural decisions, code, technical designs and development guidelines.</li>
+  <li><b>Infrastructure operations:</b> network and cloud engineers monitor services, plan capacity and handle outages.</li>
+  <li><b>Cybersecurity:</b> analysts define security policies, control access to accounts and respond to security incidents.</li>
+  <li><b>Management:</b> leaders use reports, contracts and client feedback to set priorities and investments.</li>
+</ul>
+<h2 id="toc4">Documents and knowledge resources it manages</h2>
+<p>The daily work of the company produces policies, procedures, technical guidelines, configuration standards, capacity plans, runbooks, support guides and incident reports. In the prototype these documents are organized in four knowledge categories: Cybersecurity, Infrastructure, Software Development and Technical Support.</p>
+<h2 id="toc5">Why a knowledge management system is needed</h2>
+<p>Knowledge is spread across tickets, repositories and people's experience, so employees lose time looking for information and key know-how depends on a few specialists. A knowledge management system centralizes the documents, classifies them by category and lets employees find them with natural-language queries, which shortens response times and reduces the risk of losing knowledge.</p>
+<h2 id="toc6">Areas that generate, use or update information</h2>
+<table>
+  <tr><th style="width:17%">Area</th><th>Generates</th><th>Uses</th><th>Updates</th></tr>
+  <tr><td>Technical Support</td><td>Ticket notes, fixes, workarounds, account-support guides</td><td>Runbooks, policies, release notes</td><td>Knowledge base articles that failed in practice</td></tr>
+  <tr><td>Software Development</td><td>Code, designs, development guidelines</td><td>Escalated bugs, logs, client environment data</td><td>API documentation, guidelines, release notes</td></tr>
+  <tr><td>Infrastructure</td><td>Network policies, capacity plans, runbooks, incident reports</td><td>Release notes, monitoring alerts</td><td>Runbooks, configuration standards, maintenance schedules</td></tr>
+  <tr><td>Cybersecurity</td><td>Security policies (e.g., multi-factor authentication), response procedures</td><td>Incident reports, access logs</td><td>Policies and response procedures after incidents</td></tr>
+  <tr><td>Management</td><td>Priorities, SLA targets, staffing decisions</td><td>Dashboards, trend reports, contracts</td><td>Priorities and client commitments</td></tr>
+</table>
+</div>
+
+<!-- ======================= 2 LIFECYCLE ======================= -->
+<div class="page">
+<h1 class="sec" id="toc7">2. Knowledge life cycle map</h1>
+<p>Knowledge at NexaTech moves through six stages: <b>creation and capture</b>, <b>storage and documentation</b>, <b>organization and classification</b>, <b>sharing and transfer</b>, <b>application</b>, and <b>update and continuous improvement</b>. These stages expand the capture, sharing and application cycle described by Dalkir (2017). Figure 1 shows, for each stage, the tacit and explicit knowledge involved, the SECI conversion (Nonaka &amp; Takeuchi, 1995), the component of the prototype that supports it and the data in the system.</p>
+<figure><img src="../../DIAGRAMS/knowledge_lifecycle.png"><figcaption>Figure 1. Knowledge life cycle at NexaTech Solutions and its relation to the prototype. Source: own elaboration (DIAGRAMS/lifecycle_map.py).</figcaption></figure>
+<h2 id="toc8">Stages explained with one case</h2>
+<p>A bank's VPN connection drops after every firmware update. The case follows the cycle as shown below.</p>
+<table>
+  <tr><th style="width:17%">Stage</th><th>What happens (VPN case)</th><th style="width:31%">Prototype support</th></tr>
+  <tr><td>1. Creation and capture</td><td>A support agent notices the pattern. With an operations engineer she finds that the update resets a tunnel setting and records the cause and workaround in the ticket.</td><td>Add Document receives the new document (manual entry, or PDF, TXT or CSV file; OCR for scanned PDFs).</td></tr>
+  <tr><td>2. Storage and documentation</td><td>The workaround is written as an article with a title and content and saved in the central repository.</td><td>Saved in <code>documents.csv</code>; the app validates required fields and rejects duplicated IDs or contents.</td></tr>
+  <tr><td>3. Organization and classification</td><td>The article is assigned to a knowledge category and tagged by product, client sector and error type.</td><td>The Document Classifier (TF-IDF + Naive Bayes) suggests the category (Technical Support); the author confirms it.</td></tr>
+  <tr><td>4. Sharing and transfer</td><td>The article is published; a senior agent mentors a junior one and development ships the fix in the next release.</td><td>Knowledge Base and Dashboard make the documents visible and filterable.</td></tr>
+  <tr><td>5. Application</td><td>Two weeks later another client reports the same symptom; an agent finds the article and restores the service in minutes.</td><td>Semantic Search ranks the documents by similarity: the query “the VPN connection drops after the firmware update” returns <i>VPN Connectivity Troubleshooting</i> first (Figure 18).</td></tr>
+  <tr><td>6. Update and continuous improvement</td><td>The postmortem leads to an automated configuration check, and the article is corrected.</td><td>New or corrected documents are imported and the search index and classifier are rebuilt automatically.</td></tr>
+</table>
+<h2 id="toc9">Tacit and explicit knowledge</h2>
+<p>Tacit knowledge lives in people (experience, skill and judgment), while explicit knowledge is written in documents, repositories and databases (Polanyi, 1966). The organization learns as it converts one into the other: socialization (tacit to tacit), externalization (tacit to explicit), combination (explicit to explicit) and internalization (explicit to tacit). The prototype works on the explicit side: it stores documents and makes them easy to classify and retrieve, so that other employees can internalize them.</p>
+</div>
+
+<!-- ======================= 3 ONTOLOGY ======================= -->
+<div class="page">
+<h1 class="sec" id="toc10">3. Ontology and conceptual graph of organizational knowledge</h1>
+<p>The ontology describes the main concepts of the domain and how they relate. It has four layers: the organization and its areas; the knowledge categories that each area generates; the technical documents, which have a document type (policy, procedure, guideline, plan or runbook, support guide, incident report) and belong to one category; and the models and users that classify and retrieve them (classifier, search engine, employee and query). Dashed boxes are real documents from the dataset, shown as examples of instances; the green arrow between DOC007 and DOC003 shows the relation between documents (cosine similarity). The graph is Figure 2, on the landscape page that follows the tables.</p>
+<h2 id="toc11">How the ontology covers the required elements</h2>
+<table>
+  <tr><th style="width:27%">Element</th><th>Representation in the NexaTech ontology</th></tr>
+  <tr><td>Main concepts of the domain</td><td>Organization (NexaTech Solutions), areas (Technical Support, Software Development, Infrastructure, Cybersecurity), knowledge categories, employee, natural-language query, classifier and search engine.</td></tr>
+  <tr><td>Document types</td><td>Policy, procedure, guideline, plan / runbook, support guide and incident report, all subtypes of <i>Technical document</i> (attributes: document_id, title, category, content).</td></tr>
+  <tr><td>Relationships between concepts</td><td><i>has area</i>, <i>generates / owns</i>, <i>asks</i>, <i>is processed by</i>, <i>subtype of</i>.</td></tr>
+  <tr><td>Relationships between documents and concepts</td><td><i>contains</i> (category → document), <i>has type</i> (document → type), <i>is similar to</i> (document ↔ document), <i>ranks / retrieves</i> (search engine → document), <i>reads / assigns category</i> (classifier → document / category). The Topic 3 exercise (section 6) populates these relations with all 102 documents.</td></tr>
+</table>
+<h2 id="toc12">Relations between concepts</h2>
+<table>
+  <tr><th style="width:25%">Subject</th><th style="width:20%">Relation</th><th>Object</th></tr>
+  <tr><td>NexaTech Solutions</td><td>has area</td><td>Technical Support, Software Development, Infrastructure, Cybersecurity</td></tr>
+  <tr><td>Area</td><td>generates and owns</td><td>Knowledge category with its documents</td></tr>
+  <tr><td>Knowledge category</td><td>contains</td><td>Technical document</td></tr>
+  <tr><td>Technical document</td><td>has type</td><td>Document type: policy, procedure, guideline, plan / runbook, support guide, incident report</td></tr>
+  <tr><td>Document type</td><td>is a subtype of</td><td>Technical document (attributes: document_id, title, category, content)</td></tr>
+  <tr><td>Technical document</td><td>is similar to</td><td>Other technical documents (cosine similarity of TF-IDF vectors)</td></tr>
+  <tr><td>Employee</td><td>asks</td><td>Natural-language query</td></tr>
+  <tr><td>Natural-language query</td><td>is processed by</td><td>Search engine (TF-IDF + cosine similarity), which ranks and retrieves technical documents</td></tr>
+  <tr><td>Classifier (TF-IDF + Naive Bayes)</td><td>reads the text of / assigns</td><td>A technical document / its knowledge category</td></tr>
+</table>
+<h2 id="toc13">Examples of instances</h2>
+<table>
+  <tr><th style="width:13%">Document</th><th>Title</th><th style="width:18%">Type</th><th style="width:22%">Category</th></tr>
+  <tr><td>DOC059</td><td>Multi-Factor Authentication Policy</td><td>Policy</td><td>Cybersecurity</td></tr>
+  <tr><td>DOC003</td><td>Network Monitoring Policy</td><td>Policy</td><td>Infrastructure</td></tr>
+  <tr><td>DOC007</td><td>Network Capacity Planning</td><td>Plan / runbook</td><td>Infrastructure</td></tr>
+  <tr><td>DOC099</td><td>Backend Development Guidelines</td><td>Guideline</td><td>Software Development</td></tr>
+  <tr><td>DOC045</td><td>User Account Creation Support</td><td>Support guide</td><td>Technical Support</td></tr>
+</table>
+</div>
+<div class="landscape">
+  <img src="../../DIAGRAMS/ontology_conceptual_graph.png">
+  <p style="font-size:8.5pt;font-style:italic;color:#444;margin-top:4pt">Figure 2. Conceptual graph of NexaTech: organization, areas, categories, instances, document types and models. Source: own elaboration.</p>
+</div>
+
+<!-- ======================= 4 PROTOTYPE ======================= -->
+<div class="page">
+<h1 class="sec" id="toc14">4. How the prototype works</h1>
+<p>The prototype is a web application written in Python. Streamlit provides the interface, pandas handles the data and scikit-learn provides TF-IDF, cosine similarity and Naive Bayes (Pedregosa et al., 2011). PDF files are read with pypdf; scanned PDFs can be read with optional OCR (PyMuPDF and Tesseract). The scripts in <code>SRC</code> run the same techniques from the command line and save their results in <code>RESULTS</code>.</p>
+<h2 id="toc15">Repository structure</h2>
+<pre>NexaTech-Knowledge-Management/
+|-- app.py                          Streamlit application (interface + models)
+|-- DATA/
+|   |-- documents.csv               Knowledge base (102 documents)
+|   `-- test_documents.csv          8 new documents for classification tests
+|-- SRC/
+|   |-- check_documents.py          Dataset validation and summary
+|   |-- Classify_documents.py       Classification prototype in 7 stages
+|   |-- evaluate_classifier.py      3- and 5-fold cross-validation, model comparison
+|   `-- semantic_search.py          TF-IDF + cosine similarity search (query input)
+|-- EXERCISES/                      Practical exercises, Topics 1 to 6 (+ outputs)
+|-- DIAGRAMS/                       Life cycle map and conceptual graph
+|-- RESULTS/                        Predictions, confusion matrices, search results
+|-- DOCS/                           This report, its source and the screenshots
+|-- requirements.txt
+`-- README.md</pre>
+<h2 id="toc16">Data flow</h2>
+<ul>
+  <li><b>Loading:</b> documents.csv is read and validated (columns document_id, title, category and content; no empty values or duplicated IDs).</li>
+  <li><b>Working text:</b> each document gets search_text = title + content.</li>
+  <li><b>Vectorization:</b> TfidfVectorizer (English stop words, 1-2 grams, sublinear TF for search) turns the texts into vectors.</li>
+  <li><b>Cached models:</b> the models are trained once and rebuilt when the dataset changes.</li>
+</ul>
+<h2 id="toc17">Modules</h2>
+<table>
+  <tr><th style="width:17%">Module</th><th>Function</th><th style="width:24%">Technique</th></tr>
+  <tr><td>Dashboard</td><td>Total documents, categories, average per category and chart of documents by category.</td><td>pandas, Streamlit charts</td></tr>
+  <tr><td>Semantic Search</td><td>Takes a natural-language query, computes its similarity with every document and shows the best results with their score. Filters: category, number of results and minimum similarity.</td><td>TF-IDF + cosine similarity</td></tr>
+  <tr><td>Document Classifier</td><td>Predicts the category of a new title or text and shows the score of each category.</td><td>TF-IDF + MultinomialNB (α = 0.1)</td></tr>
+  <tr><td>Add Document</td><td>Adds documents manually or imports CSV, PDF or TXT files; avoids duplicated IDs and contents and retrains the models.</td><td>pypdf, optional OCR</td></tr>
+  <tr><td>Knowledge Base</td><td>Browse and filter all stored documents, with keyword search in title or content.</td><td>pandas</td></tr>
+</table>
+<h2 id="toc18">How the search is computed</h2>
+<p>The query is transformed into the same TF-IDF space as the documents. The cosine similarity between the query vector <i>q</i> and each document vector <i>d</i>, cos(q, d) = (q · d) / (‖q‖ ‖d‖), is then calculated; a value closer to 1 means they share relevant terms (Manning et al., 2008). Documents with a similarity above zero are sorted from highest to lowest. The method is called semantic search in the project, but it is strictly lexical: it ranks by shared, weighted words and does not understand synonyms or paraphrases. The score measures textual similarity, not the probability that the answer is correct. Embeddings are the natural next step to capture meaning. <code>SRC/semantic_search.py</code> receives the query as an argument or in interactive mode and also prints the query terms and the terms each document matched, which explains every score.</p>
+<h2 id="toc19">How the classification works</h2>
+<p>The classifier learns from the documents that already have a category: TF-IDF represents each text and multinomial Naive Bayes estimates the most likely category. The score shown for each category is the model's estimated probability. The interface shows the predicted category and the score of each class, with a warning that it is an automated suggestion whose reliability depends on the amount and variety of training documents. <code>SRC/Classify_documents.py</code> runs the process in seven identifiable stages:</p>
+<table>
+  <tr><th style="width:24%">Stage</th><th>What the script does</th></tr>
+  <tr><td>1. Load the document set</td><td>Reads <code>DATA/documents.csv</code> (102 documents) and prints the category counts and the first input documents.</td></tr>
+  <tr><td>2. Train / test split</td><td>Stratified 75 % / 25 % split: 76 training and 26 testing documents.</td></tr>
+  <tr><td>3. TF-IDF vectorization</td><td>English stop words removed, unigrams and bigrams; vocabulary of 3,539 terms on the training set.</td></tr>
+  <tr><td>4. Train the models</td><td>Multinomial Naive Bayes with α = 0.1 (the model of the app) and Logistic Regression as a comparison.</td></tr>
+  <tr><td>5. Evaluate</td><td>Accuracy, precision, recall, F1, confusion matrix and the predicted category of each test document.</td></tr>
+  <tr><td>6. Classify new documents</td><td>Retrains on all 102 documents and classifies the 8 documents of <code>DATA/test_documents.csv</code> into the four predefined categories.</td></tr>
+  <tr><td>7. Save the results</td><td><code>RESULTS/classification_results.csv</code>, <code>new_documents_predictions.csv</code> and confusion matrices.</td></tr>
+</table>
+<div class="new"><b>Why α = 0.1.</b> In the first version the classifier used the default smoothing of Naive Bayes (α = 1.0). With so few words per document, that smoothing hides the evidence of the smaller categories and the model predicted Infrastructure for 58 % of the documents, although only 32 % belong to it. Lowering α to 0.1 raised the cross-validation accuracy from 66.7 % to 84.3 % (3 folds) and the recall of Software Development in 5-fold cross-validation from 0.15 to 0.80 (section 5.6 and Topic 5).</div>
+</div>
+
+<!-- ======================= 5 EVIDENCE ======================= -->
+<div class="page">
+<h1 class="sec" id="toc20">5. Evidence of prototype development</h1>
+<p>The following screenshots show the prototype running. To reproduce them: <code>pip install -r requirements.txt</code>, then <code>streamlit run app.py</code> for the application and the commands of section 7 for the scripts.</p>
+<h2 id="toc21">5.1 Dashboard and input documents</h2>
+<p>The knowledge base has 102 documents in 4 categories (25.5 per category on average): Cybersecurity (29), Infrastructure (33), Software Development (20) and Technical Support (20).</p>
+<figure><img src="../screenshots/app_01_dashboard.png" style="width:78%"><figcaption>Figure 3. Dashboard with the overview of the knowledge base.</figcaption></figure>
+<figure><img src="../screenshots/01_check_documents.png" style="width:80%"><figcaption>Figure 4. Input documents loaded and validated by SRC/check_documents.py.</figcaption></figure>
+</div>
+
+<div>
+<h2 id="toc22">5.2 Classification with the repository script</h2>
+<figure><img src="../screenshots/02_classify_stages_1_3.png" style="width:72%"><figcaption>Figure 5. Stages 1 to 3 of Classify_documents.py: input documents, train/test split and TF-IDF vectorization.</figcaption></figure>
+<figure><img src="../screenshots/03_classify_evaluation.png" style="width:72%"><figcaption>Figure 6. Stages 4 and 5: training and evaluation of Naive Bayes and Logistic Regression on 26 test documents.</figcaption></figure>
+</div>
+
+<div>
+<div class="two">
+  <figure style="flex:1.45"><img src="../screenshots/04_classify_test_predictions.png"><figcaption>Figure 7. Predicted category of each test document (24 of 26 correct).</figcaption></figure>
+  <figure style="flex:1"><img src="../../RESULTS/confusion_matrix_naive_bayes.png"><figcaption>Figure 8. Confusion matrix of Naive Bayes on the test set.</figcaption></figure>
+</div>
+<p><b>Analysis:</b> Naive Bayes reaches 92.3 % accuracy on the 26 test documents (Logistic Regression 96.2 %). Technical Support and Infrastructure are fully recalled. The two errors are borderline documents: <i>Application Performance Optimization</i> (DOC095, Software Development) shares performance and monitoring vocabulary with Infrastructure, and <i>Secure Software Development Policy</i> (DOC074, Cybersecurity) is about software development by definition. Software Development recall rose from 0.20 in the first version to 0.80.</p>
+
+<h2 id="toc23">5.3 Classification tests with new documents</h2>
+<p>Eight documents that are not in the training data (<code>DATA/test_documents.csv</code>, two per category) were classified by the script. The first three are the tests of the first version of this report.</p>
+<figure><img src="../screenshots/05_classify_new_documents.png" style="width:96%"><figcaption>Figure 9. Stage 6: the eight new documents are assigned to the predefined categories (8/8 correct).</figcaption></figure>
+<table class="center-last">
+  <tr><th>Test text</th><th>Expected category</th><th>Predicted category</th><th>Score</th><th>Correct?</th></tr>
+  <tr><td>Endpoint Protection and Incident Response</td><td>Cybersecurity</td><td>Cybersecurity</td><td>87.2%</td><td class="ok">Yes</td></tr>
+  <tr><td>API Versioning and Documentation Standards</td><td>Software Development</td><td>Software Development</td><td>84.3%</td><td class="ok">Yes</td></tr>
+  <tr><td>Vulnerability Assessment and Patch Management</td><td>Cybersecurity</td><td>Cybersecurity</td><td>86.6%</td><td class="ok">Yes</td></tr>
+  <tr><td>Load Balancer Configuration Procedure</td><td>Infrastructure</td><td>Infrastructure</td><td>95.5%</td><td class="ok">Yes</td></tr>
+  <tr><td>Data Center Cooling Maintenance</td><td>Infrastructure</td><td>Infrastructure</td><td>96.9%</td><td class="ok">Yes</td></tr>
+  <tr><td>Printer Driver Installation Support</td><td>Technical Support</td><td>Technical Support</td><td>95.4%</td><td class="ok">Yes</td></tr>
+  <tr><td>New Laptop Setup for Employees</td><td>Technical Support</td><td>Technical Support</td><td>84.7%</td><td class="ok">Yes</td></tr>
+  <tr><td>Code Refactoring Guidelines</td><td>Software Development</td><td>Software Development</td><td>90.4%</td><td class="ok">Yes</td></tr>
+</table>
+</div>
+
+<div>
+<p>The same three tests of the first version were repeated in the application (Figures 10 to 12). In the first version the API document was classified as Infrastructure (33.5 %); with α = 0.1 it is classified correctly as Software Development (84.3 %), and the scores of the other two tests rose from 46.0 % and 39.9 % to 87.2 % and 86.6 %, which means higher confidence.</p>
+<div class="two">
+  <figure><img src="../screenshots/app_04_classifier_test1.png"><figcaption>Figure 10. Test 1: Endpoint Protection and Incident Response → Cybersecurity (87.2%).</figcaption></figure>
+  <figure><img src="../screenshots/app_05_classifier_test2.png"><figcaption>Figure 11. Test 2: API Versioning and Documentation Standards → Software Development (84.3%).</figcaption></figure>
+  <figure><img src="../screenshots/app_06_classifier_test3.png"><figcaption>Figure 12. Test 3: Vulnerability Assessment and Patch Management → Cybersecurity (86.6%).</figcaption></figure>
+</div>
+<figure><img src="../screenshots/06_classify_custom_text.png" style="width:92%"><figcaption>Figure 13. Classification of a free text written by the team: Technical Support (51.3%), Cybersecurity second because of the word “VPN”.</figcaption></figure>
+</div>
+
+<div>
+<h2 id="toc24">5.4 Semantic search examples</h2>
+<p><b>Example 1.</b> Query: <i>how can we protect employee acounts</i> (typed with a spelling mistake, exactly as it was run).</p>
+<figure><img src="../screenshots/app_02_search_1.png" style="width:46%"><figcaption>Figure 14. Search results for protecting employee accounts (application screenshot).</figcaption></figure>
+<table class="num">
+  <tr><th style="width:5%">#</th><th>Retrieved document</th><th>Category</th><th>Cosine similarity</th></tr>
+  <tr><td>1</td><td>DOC059 · Multi-Factor Authentication Policy</td><td>Cybersecurity</td><td>0.0910</td></tr>
+  <tr><td>2</td><td>DOC099 · Backend Development Guidelines</td><td>Software Development</td><td>0.0878</td></tr>
+  <tr><td>3</td><td>DOC045 · User Account Creation Support</td><td>Technical Support</td><td>0.0753</td></tr>
+</table>
+<p><b>Interpretation:</b> the multi-factor authentication policy is the most relevant result for protecting accounts. The second result (backend guidelines) only shares the general term “protect” and is not relevant, and it ranks above account-creation support, which is more related to the topic. Scores are low because the query is short and contains a misspelled word (“acounts”), which removes an exact term match in TF-IDF: only “protect” and “employee” remain in the query vector. Example 3 repeats the question without the mistake.</p>
+</div>
+
+<div>
+<p><b>Example 2.</b> Query: <i>What are the procedures for handling network failures or capacity issues?</i></p>
+<figure><img src="../screenshots/app_03_search_2.png" style="width:46%"><figcaption>Figure 15. Search results for network failures and capacity issues (application screenshot).</figcaption></figure>
+<table class="num">
+  <tr><th style="width:5%">#</th><th>Retrieved document</th><th>Category</th><th>Cosine similarity</th></tr>
+  <tr><td>1</td><td>DOC007 · Network Capacity Planning</td><td>Infrastructure</td><td>0.1228</td></tr>
+  <tr><td>2</td><td>DOC003 · Network Monitoring Policy</td><td>Infrastructure</td><td>0.1147</td></tr>
+  <tr><td>3</td><td>DOC037 · Infrastructure Maintenance Scheduling</td><td>Infrastructure</td><td>0.0977</td></tr>
+</table>
+<p><b>Interpretation:</b> the three top documents belong to Infrastructure and deal with capacity, monitoring and maintenance of the network, so they answer the information need directly. DOC007 matches “capacity” and “network”, DOC003 also “failures”. Scores are higher than in example 1 because the query is more specific and uses terms that appear in those documents.</p>
+</div>
+
+<div>
+<p><b>Examples 3 and 4 (script).</b> <code>SRC/semantic_search.py</code> prints the query terms kept after removing stop words, the score of each document and the terms it matched.</p>
+<figure><img src="../screenshots/08_search_examples.png" style="width:92%"><figcaption>Figure 16. Examples 1 and 2 reproduced with the script, with the matched terms of each document.</figcaption></figure>
+<figure><img src="../screenshots/09_search_examples_2.png" style="width:92%"><figcaption>Figure 17. Examples 3 and 4 run with the script.</figcaption></figure>
+<table>
+  <tr><th style="width:27%">Query</th><th style="width:34%">Top results (cosine similarity)</th><th>Why they answer the information need</th></tr>
+  <tr><td>3. How can we protect employee accounts and passwords?</td><td>DOC059 Multi-Factor Authentication Policy (0.1328)<br>DOC071 Secure Password Management (0.1119)<br>DOC045 User Account Creation Support (0.0972)</td><td>With correct spelling the query keeps “accounts” and “passwords”: the scores rise and the irrelevant backend guideline of example 1 is replaced by the password management document.</td></tr>
+  <tr><td>4. How do developers test and fix software bugs?</td><td>DOC094 Unit Testing Guidelines (0.1921)<br>DOC084 Software Testing Strategy (0.1191)<br>DOC081 Software Development Lifecycle (0.0814)</td><td>All three are Software Development documents about testing; the bigram “developers test” gives DOC094 the highest score.</td></tr>
+</table>
+</div>
+
+<div>
+<p><b>Examples 5 and 6 (interactive mode).</b> The user types questions in natural language one after another. Example 5 is the VPN case of section 2.</p>
+<figure><img src="../screenshots/10_search_interactive.png" style="width:100%"><figcaption>Figure 18. Interactive search: the VPN case returns VPN Connectivity Troubleshooting first (0.1406); the code review question returns Version Control Management (0.1535) and Code Review Procedure (0.1305).</figcaption></figure>
+<p><b>Interpretation:</b> for the VPN case the first result is the support guide for VPN connectivity, and the next two are about firmware and updates, the cause of the problem. For the code review question, the first two results are the version control (branches, merging) and code review documents; the third, Application Security Testing, shares “code” and “review” but is less useful.</p>
+
+<h2 id="toc25">5.5 Knowledge base browsing</h2>
+<p>The Knowledge Base module filters by category and searches by keyword in title or content. It shows all stored documents with their ID, title, category and content.</p>
+<figure><img src="../screenshots/app_07_knowledge_base.png" style="width:86%"><figcaption>Figure 19. Knowledge Base module with the document set.</figcaption></figure>
+</div>
+
+<div>
+<h2 id="toc26">5.6 Classifier evaluation with the repository scripts</h2>
+<p>Two scripts in SRC measure the classifier on the committed dataset (102 documents). The hold-out predictions are saved in <code>RESULTS/classification_results.csv</code>. The table compares the first version of the classifier with the current one.</p>
+<table class="num3">
+  <tr><th>Configuration</th><th>Script</th><th>Hold-out 75/25</th><th>3-fold CV</th><th>5-fold CV</th></tr>
+  <tr><td>First version: Naive Bayes, α = 1.0</td><td>Classify_documents.py (v1)</td><td>76.9%</td><td>66.7%</td><td>72.4%</td></tr>
+  <tr><td><b>Current: Naive Bayes, α = 0.1 (app.py)</b></td><td>Classify_documents.py</td><td><b>92.3%</b></td><td><b>84.3%</b></td><td><b>85.1%</b></td></tr>
+  <tr><td>Comparison: Logistic Regression (balanced)</td><td>evaluate_classifier.py</td><td>96.2%</td><td>90.2%</td><td>89.1%</td></tr>
+</table>
+<figure><img src="../screenshots/07_evaluate_classifier.png" style="width:92%"><figcaption>Figure 20. Cross-validation with SRC/evaluate_classifier.py (original and current configurations).</figcaption></figure>
+<p><b>Analysis:</b> the first version reached 76.9 % on the hold-out split but only 66.7 % in cross-validation, and Software Development was missed 4 times out of 5. The cause was not only the size of the dataset: the default smoothing α = 1.0 pushed the model towards the largest category (Infrastructure). With α = 0.1 every configuration improves, and the cross-validation results (84–85 %) are now close to the hold-out result, so the estimate is more stable. Logistic Regression is a little better, but Naive Bayes was kept because it is simple, fast to retrain in the app and gives interpretable probabilities. A realistic expectation for the current dataset is between 84 % and 92 %.</p>
+</div>
+
+<!-- ======================= 6 EXERCISES ======================= -->
+<div class="page">
+<h1 class="sec" id="toc27">6. Evidence of practical exercises (Topics 1 to 6)</h1>
+<p>During the first weeks of the course the team carried out practical exercises with the NexaTech documents. Each one contributed to a part of the project. The scripts are in <code>EXERCISES</code> and their outputs in <code>EXERCISES/outputs</code>; <code>SRC/check_documents.py</code> (data exploration) and <code>SRC/evaluate_classifier.py</code> (model validation) also started as exercises.</p>
+<table>
+  <tr><th style="width:6%">Topic</th><th style="width:24%">Exercise</th><th>Main result</th><th style="width:29%">Contribution to the project</th></tr>
+  <tr><td>1</td><td>Knowledge audit: tacit vs explicit knowledge, SECI model</td><td>12 knowledge assets of 4 areas, half of them tacit; how many documents already capture each one</td><td>Defined the four knowledge categories and the tacit/explicit rows of the life cycle map</td></tr>
+  <tr><td>2</td><td>Text preprocessing, Bag-of-Words and TF-IDF by hand</td><td>“authentication” (in 1 of 3 docs) gets idf 1.69, “accounts” (2 of 3) gets 1.29</td><td>Justified stop-word removal and TF-IDF for search and classification</td></tr>
+  <tr><td>3</td><td>Knowledge representation: the ontology as triples</td><td>325 triples (19 schema, 306 instance); document types assigned to all 102 documents</td><td>Validated the ontology of Figure 2 with real instances</td></tr>
+  <tr><td>4</td><td>Information retrieval: Boolean model vs vector space model</td><td>Boolean AND returns 0–1 documents per query; TF-IDF ranking MAP = 0.699</td><td>Chose ranked TF-IDF + cosine similarity for the search</td></tr>
+  <tr><td>5</td><td>Classification tests: features, models and smoothing</td><td>CV 0.84–0.93; α = 1.0 predicts Infrastructure for 58 % of documents; α = 0.1 reaches 0.85</td><td>Found the cause of the low accuracy and changed α to 0.1 in app.py</td></tr>
+  <tr><td>6</td><td>Document similarity and K-Means clustering</td><td>Same-category similarity 2.1× higher; purity 0.58 with 4 clusters</td><td>Supports the “is similar to” relation and shows that categories share vocabulary</td></tr>
+</table>
+<h2 id="toc28">Topic 1 – Knowledge audit</h2>
+<figure><img src="../screenshots/13_topic1_audit.png" style="width:92%"><figcaption>Figure 21. Knowledge assets per area, type of knowledge, SECI conversion and documents found in the dataset.</figcaption></figure>
+</div>
+
+<div>
+<h2 id="toc29">Topic 2 – Text preprocessing and TF-IDF</h2>
+<p>A sentence of DOC059 is followed through tokenization, stop-word removal and stemming; then a Bag-of-Words matrix and TF-IDF weights are computed by hand for three password-related documents and compared with scikit-learn.</p>
+<figure><img src="../screenshots/14_topic2_preprocessing.png" style="width:88%"><figcaption>Figure 22. Topic 2 output.</figcaption></figure>
+<h2 id="toc30">Topic 3 – Knowledge representation</h2>
+<p>The conceptual graph of Figure 2 is encoded as subject–predicate–object triples and populated with the dataset: every document gets its category, its document type (from the title) and its most similar document.</p>
+<figure><img src="../screenshots/15_topic3_representation.png" style="width:88%"><figcaption>Figure 23. Topic 3 output: document types per category, queries over the graph and “is similar to” links of the instances of Figure 2.</figcaption></figure>
+</div>
+
+<div>
+<h2 id="toc31">Topic 4 – Information retrieval</h2>
+<p>An inverted index is built and four queries with manual relevance judgments are run with the Boolean model and with TF-IDF ranking, measuring Precision@3, Recall@3 and Average Precision (Manning et al., 2008).</p>
+<figure><img src="../screenshots/16_topic4_retrieval.png" style="width:88%"><figcaption>Figure 24. Topic 4 output.</figcaption></figure>
+<h2 id="toc32">Topic 5 – Classification tests</h2>
+<p>Three feature representations and three models are compared with 5-fold cross-validation; then the smoothing parameter of Naive Bayes is tested and the model is tried with short informal texts.</p>
+<figure><img src="../screenshots/17_topic5_classification.png" style="width:88%"><figcaption>Figure 25. Topic 5 output: with α = 1.0 only 15 % of Software Development documents are recognised; with α = 0.1, 80 %.</figcaption></figure>
+</div>
+
+<div>
+<h2 id="toc33">Topic 6 – Similarity and clustering</h2>
+<p>The cosine similarity between all documents is computed to recommend related documents, and K-Means groups the documents without labels to compare the clusters with the four categories.</p>
+<div class="two">
+  <figure style="flex:1.5"><img src="../screenshots/18_topic6_similarity.png"><figcaption>Figure 26. Topic 6 output.</figcaption></figure>
+  <figure style="flex:1"><img src="../../EXERCISES/outputs/topic6_similarity_heatmap.png"><figcaption>Figure 27. Cosine similarity between documents, sorted by category.</figcaption></figure>
+</div>
+<p><b>Interpretation:</b> documents are on average 2.1 times more similar to documents of their own category, which supports the “is similar to” relation of the ontology. The clusters only partly match the categories (purity 0.58): Cybersecurity documents appear in two clusters and Technical Support shares many terms with the other areas, which is the same overlap seen in the classification errors.</p>
+
+<!-- ======================= 7 REPOSITORY ======================= -->
+<h1 class="sec" style="margin-top:14pt" id="toc34">7. Repository and reproduction</h1>
+<p>Repository: <a href="https://github.com/Andres145876/NexaTech-Knowledge-Management">https://github.com/Andres145876/NexaTech-Knowledge-Management</a></p>
+<p>It contains the application (app.py), the dataset and the test documents (DATA), the classification and search scripts (SRC), the practical exercises (EXERCISES), the diagrams (DIAGRAMS), the execution results (RESULTS), this report with its screenshots (DOCS) and the dependencies (requirements.txt).</p>
+<pre>pip install -r requirements.txt
+streamlit run app.py                                   # web application
+
+python SRC/check_documents.py                          # dataset summary
+python SRC/Classify_documents.py                       # 7-stage classification + new documents
+python SRC/Classify_documents.py --text "my VPN does not connect"
+python SRC/evaluate_classifier.py                      # cross-validation
+python SRC/semantic_search.py                          # example queries
+python SRC/semantic_search.py "how can we protect employee accounts"
+python SRC/semantic_search.py --interactive            # type your own queries
+python EXERCISES/topic1_knowledge_audit.py             # ... up to topic6</pre>
+</div>
+
+<!-- ======================= 8 CONCLUSION ======================= -->
+<div class="page">
+<h1 class="sec" id="toc35">8. Conclusion</h1>
+<p>The prototype puts the knowledge life cycle of NexaTech into practice: documents are added, stored, classified automatically, shared, retrieved with similarity search and updated, and every stage of the map has a component of the application behind it. The ontology describes the areas, categories, document types and models, and the exercises populated it with the 102 real documents.</p>
+<p>The tests show that the classifier and the search work on the sample dataset and also expose their limits. The evaluation found that the low accuracy of the first version (66.7 % in cross-validation) came mainly from the default smoothing of Naive Bayes; with α = 0.1 the classifier reaches 92.3 % on the hold-out split and 85.1 % in 5-fold cross-validation, and it classifies the 8 new test documents correctly, including the API document that failed before. Search returns the right documents for specific, well-written queries and loses quality with misspelled or very short ones, because TF-IDF compares words, not meaning.</p>
+<p>Future work includes adding more documents to balance the categories, evaluating Logistic Regression in the app, using embeddings for semantic search, adding spelling correction to queries and adding document versioning. AI supports the process, but specialists keep the final decision.</p>
+
+<h2 id="toc36">References</h2>
+<div class="refs">
+<p>Dalkir, K. (2017). <i>Knowledge management in theory and practice</i> (3rd ed.). MIT Press.</p>
+<p>Manning, C. D., Raghavan, P., &amp; Schütze, H. (2008). <i>Introduction to information retrieval</i>. Cambridge University Press.</p>
+<p>Nonaka, I., &amp; Takeuchi, H. (1995). <i>The knowledge-creating company: How Japanese companies create the dynamics of innovation</i>. Oxford University Press.</p>
+<p>Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel, O., … Duchesnay, É. (2011). Scikit-learn: Machine learning in Python. <i>Journal of Machine Learning Research, 12</i>, 2825–2830.</p>
+<p>Polanyi, M. (1966). <i>The tacit dimension</i>. Doubleday.</p>
+</div>
+</div>
+
+</body>
+</html>

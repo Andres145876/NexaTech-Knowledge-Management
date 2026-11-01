@@ -1,0 +1,24 @@
+Related to DOC007 (Network Capacity Planning):
+    0.211  DOC016        Storage Infrastructure Management
+    0.199  DOC003        Network Monitoring Policy
+    0.171  DOC026        Network Performance Optimization
+Related to DOC059 (Multi-Factor Authentication Policy):
+    0.246  DOC-7EFCA7B0  Network Security and Access Control Guidelines
+    0.215  DOC063        Secure Remote Work Policy
+    0.157  DOC061        Access Review and Authorization
+Related to DOC094 (Unit Testing Guidelines):
+    0.136  DOC087        API Development Guidelines
+    0.133  DOC084        Software Testing Strategy
+    0.121  DOC038        Network Connectivity Testing
+
+Mean similarity, same category:      0.072
+Mean similarity, different category: 0.034
+
+K-Means clusters (k=4, no labels used):
+  cluster 0: 22 docs | majority = Infrastructure        | infrastructure, maintenance, administrators, recovery, server
+  cluster 1: 32 docs | majority = Technical Support     | software, support, user, technicians, troubleshooting
+  cluster 2: 28 docs | majority = Cybersecurity         | security, access, management, network, review
+  cluster 3: 20 docs | majority = Cybersecurity         | access, employees, accounts, reported, data
+Purity: 0.578 | Adjusted Rand Index: 0.214
+
+Heatmap saved: EXERCISES/outputs/topic6_similarity_heatmap.png

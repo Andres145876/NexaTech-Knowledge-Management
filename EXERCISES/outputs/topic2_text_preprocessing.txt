@@ -1,0 +1,28 @@
+Original sentence (DOC059 Multi-Factor Authentication Policy):
+  Multi-factor authentication adds an additional verification step to protect company accounts.
+
+1) Tokens (12): ['Multi', 'factor', 'authentication', 'adds', 'an', 'additional', 'verification', 'step', 'to', 'protect', 'company', 'accounts']
+2) Without stop words (10): ['multi', 'factor', 'authentication', 'adds', 'additional', 'verification', 'step', 'protect', 'company', 'accounts']
+3) Stemmed: ['multi', 'factor', 'authentic', 'add', 'additional', 'verific', 'step', 'protect', 'company', 'account']
+
+4) Bag-of-Words for ['DOC021', 'DOC059', 'DOC071']: matrix (3, 73)
+     count('password') = [2, 0, 2]
+     count('passwords') = [1, 0, 2]
+     count('accounts') = [0, 2, 1]
+     count('authentication') = [0, 3, 0]
+     count('employees') = [0, 1, 1]
+
+5) TF-IDF by hand  (idf = ln((1+N)/(1+df)) + 1, N=3) for document DOC059:
+     accounts        tf(DOC059)=2 df=2 idf=1.288 tf-idf=2.575
+     password        tf(DOC059)=0 df=2 idf=1.288 tf-idf=0.000
+     authentication  tf(DOC059)=3 df=1 idf=1.693 tf-idf=5.079
+     mfa             tf(DOC059)=1 df=1 idf=1.693 tf-idf=1.693
+   -> terms present in fewer documents get a higher idf (more discriminative).
+
+6) scikit-learn TF-IDF (L2-normalized), top terms of DOC059:
+     authentication 0.512
+     accounts       0.259
+     reported       0.171
+     mfa            0.171
+     notifications  0.171
+     step           0.171

@@ -1,0 +1,25 @@
+Knowledge graph: 325 triples (19 schema-level, 306 instance-level)
+
+Q1. Document types per knowledge category (instances of Figure 2):
+    Technical Support      Support guide: 13, Procedure: 4, Policy: 2, Plan / runbook: 1
+    Software Development   Guideline: 12, Plan / runbook: 5, Procedure: 3
+    Infrastructure         Guideline: 14, Plan / runbook: 13, Procedure: 3, Policy: 2, Incident report: 1
+    Cybersecurity          Guideline: 12, Policy: 6, Plan / runbook: 6, Incident report: 3, Procedure: 2
+
+Q2. Which policies exist in Cybersecurity?
+    DOC055        Phishing Awareness Policy
+    DOC059        Multi-Factor Authentication Policy
+    DOC060        Data Privacy and Handling Policy
+    DOC063        Secure Remote Work Policy
+    DOC074        Secure Software Development Policy
+    DOC079        Secure Network Access Policy
+
+Q3. Instances of Figure 2 and their most similar document (relation 'similar to'):
+    DOC007 -> DOC016  cosine=0.233  (Storage Infrastructure Management)
+    DOC003 -> DOC033  cosine=0.329  (Infrastructure Monitoring Alerts)
+    DOC059 -> DOC-7EFCA7B0  cosine=0.256  (Network Security and Access Control Guidelines)
+    DOC045 -> DOC075  cosine=0.271  (Identity and Access Management)
+    DOC099 -> DOC060  cosine=0.150  (Data Privacy and Handling Policy)
+
+Q4. Path from an employee to a document:
+    Employee -asks-> Natural-language query -processed by-> Search engine -ranks / retrieves-> Technical document -has type-> Policy

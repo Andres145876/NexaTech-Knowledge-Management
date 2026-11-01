@@ -1,0 +1,22 @@
+Team                  Knowledge asset                           Type      SECI             Docs found
+-----------------------------------------------------------------------------------------------------
+IT Infrastructure     Server maintenance steps                  explicit  Internalization           8
+IT Infrastructure     Experience recovering from incidents      tacit     Externalization           4
+IT Infrastructure     Network configuration standards           explicit  Combination              18
+Help Desk             How senior technicians diagnose problems  tacit     Socialization             2
+Help Desk             Solutions to frequent user problems       tacit     Externalization           6
+Help Desk             Ticket priority rules                     explicit  Internalization           1
+Cybersecurity         Security policies (passwords, encryption) explicit  Combination               6
+Cybersecurity         Intuition to detect attacks               tacit     Socialization             6
+Cybersecurity         Lessons from security incidents           tacit     Externalization           6
+Software Development  Coding and review standards               explicit  Combination               9
+Software Development  Debugging know-how of senior developers   tacit     Socialization             4
+Software Development  Deployment steps                          explicit  Internalization           3
+
+Tacit vs explicit: {'explicit': 6, 'tacit': 6}
+SECI conversions:  {'Internalization': 3, 'Externalization': 3, 'Combination': 3, 'Socialization': 3}
+Knowledge categories needed: ['Cybersecurity', 'Infrastructure', 'Software Development', 'Technical Support']
+
+Conclusion: half of the critical knowledge is tacit (diagnosis experience,
+lessons from incidents). The KMS must externalize it as documents and make
+it easy to classify and find.

@@ -1,0 +1,21 @@
+Test 1 - 5-fold cross-validation accuracy (102 documents)
+Features                Naive Bayes a=0.1     Logistic Regr.         Linear SVM
+-------------------------------------------------------------------------------
+BoW unigrams                        0.891              0.931              0.912
+TF-IDF unigrams                     0.841              0.901              0.901
+TF-IDF uni+bigrams                  0.851              0.891              0.891
+
+Test 2 - Naive Bayes smoothing (TF-IDF uni+bigrams, 5-fold CV)
+   alpha  accuracy   recall per category (Cyber / Infra / SoftDev / Support)
+     1.0     0.667   0.86 / 0.97 / 0.15 / 0.40   (predicted Infrastructure: 58% of docs, real: 32%)
+     0.5     0.755   0.83 / 0.97 / 0.45 / 0.60   (predicted Infrastructure: 48% of docs, real: 32%)
+     0.3     0.824   0.86 / 0.97 / 0.65 / 0.70   (predicted Infrastructure: 42% of docs, real: 32%)
+     0.1     0.853   0.86 / 0.94 / 0.80 / 0.75   (predicted Infrastructure: 39% of docs, real: 32%)
+    0.05     0.853   0.83 / 0.94 / 0.80 / 0.80   (predicted Infrastructure: 37% of docs, real: 32%)
+
+Test 3 - short informal texts typed by employees (TF-IDF + NB alpha=0.1)
+  Technical Support      <- "my laptop does not turn on and the printer is not working"
+  Cybersecurity          <- "someone tried to log in to my account from another country"
+  Software Development   <- "the deployment pipeline failed after the last commit"
+  Infrastructure         <- "the server room temperature is too high"
+  Cybersecurity          <- "employees must not share confidential files"

@@ -1,0 +1,18 @@
+Inverted index: 1128 terms over 102 documents
+  postings('backup')   = ['DOC002', 'DOC008', 'DOC011', 'DOC036', 'DOC051', 'DOC077']
+  postings('phishing') = ['DOC-7EFCA7B0', 'DOC-EF5061B2', 'DOC055', 'DOC066']
+
+Query                                          Boolean AND    P@3    R@3     AP
+-------------------------------------------------------------------------------
+password and account security for employees              1   0.67   0.40   0.50
+    Boolean AND: ['DOC-EF5061B2'] | TF-IDF top-3: ['DOC021', 'DOC071', 'DOC066']
+server backup and data recovery                          1   1.00   0.75   0.92
+    Boolean AND: ['DOC011'] | TF-IDF top-3: ['DOC051', 'DOC011', 'DOC077']
+software testing and bug fixing                          0   0.67   0.67   0.67
+    Boolean AND: EMPTY | TF-IDF top-3: ['DOC084', 'DOC092', 'DOC080']
+phishing malware security incident                       1   1.00   0.60   0.71
+    Boolean AND: ['DOC-EF5061B2'] | TF-IDF top-3: ['DOC056', 'DOC058', 'DOC055']
+
+Mean Average Precision (TF-IDF): 0.699
+Boolean AND needs every word in the document, so natural-language queries
+often return nothing; ranked TF-IDF still finds the relevant documents.

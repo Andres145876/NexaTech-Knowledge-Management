@@ -206,6 +206,5 @@ By combining automated document classification, semantic information retrieval, 
 
 ---
 
-**Project:** NexaTech Knowledge Management System  
-**Repository:** https://github.com/Andres145876/NexaTech-Knowledge-Management  
+**Project:** NexaTech Knowledge Management System    
 **Application:** https://nexatech-knowledge-management-vmi3bjmvscaqeyuurj9eha.streamlit.app/
